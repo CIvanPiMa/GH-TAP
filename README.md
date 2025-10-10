@@ -14,7 +14,7 @@ This is a full-stack micro application consisting of:
   - Modern, responsive UI
   - Real-time turn tracking
   - Initiative-based turn ordering
-  
+
 - **Backend**: Python + FastAPI
   - RESTful API
   - CORS enabled for development
@@ -31,6 +31,8 @@ This is a full-stack micro application consisting of:
 ### Running the Application
 
 1. **Start the Backend** (Terminal 1):
+
+  > NOTE: It's recommended to use a virtual environment for Python dependencies.
 
    ```bash
    cd backend
@@ -53,5 +55,11 @@ This is a full-stack micro application consisting of:
 3. **Open your browser** to <http://localhost:5173>
 
 ## Development
+
+Install the pre-commit hooks:
+
+```bash
+pre-commit install
+```
 
 See individual README files in `backend/` and `frontend/` directories for more detailed development instructions.

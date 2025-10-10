@@ -1,28 +1,32 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
 import './App.css'
+import { Turn, ApiStatus } from './types'
 
-const API_URL = 'http://localhost:8000/api'
+const API_VERSION = import.meta.env.VITE_GH_TAP_API_VERSION || 'v1'
+const API_URL_BASE = import.meta.env.VITE_GH_TAP_API_URL_BASE || 'http://localhost:8000'
+
+const API_URL = `${API_URL_BASE}/api/${API_VERSION}`
 
 function App() {
-  const [turns, setTurns] = useState([])
-  const [player, setPlayer] = useState('')
-  const [action, setAction] = useState('')
-  const [initiative, setInitiative] = useState('')
-  const [apiStatus, setApiStatus] = useState('checking...')
+  const [turns, setTurns] = useState<Turn[]>([])
+  const [player, setPlayer] = useState<string>('')
+  const [action, setAction] = useState<string>('')
+  const [initiative, setInitiative] = useState<string>('')
+  const [apiStatus, setApiStatus] = useState<ApiStatus>('checking...')
 
   // Check API health on mount
   useEffect(() => {
-    fetch(`${API_URL}/health`)
+    fetch(`${API_URL_BASE}/health`)
       .then(res => res.json())
       .then(() => setApiStatus('connected'))
       .catch(() => setApiStatus('disconnected'))
   }, [])
 
   // Fetch turns
-  const fetchTurns = async () => {
+  const fetchTurns = async (): Promise<void> => {
     try {
       const response = await fetch(`${API_URL}/turns`)
-      const data = await response.json()
+      const data: Turn[] = await response.json()
       setTurns(data)
     } catch (error) {
       console.error('Error fetching turns:', error)
@@ -30,7 +34,7 @@ function App() {
   }
 
   // Add a new turn
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     if (!player || !action || !initiative) return
 
@@ -46,7 +50,7 @@ function App() {
           initiative: parseInt(initiative)
         })
       })
-      
+
       if (response.ok) {
         setPlayer('')
         setAction('')
@@ -59,7 +63,7 @@ function App() {
   }
 
   // Delete a turn
-  const handleDelete = async (turnId) => {
+  const handleDelete = async (turnId: number): Promise<void> => {
     try {
       await fetch(`${API_URL}/turns/${turnId}`, {
         method: 'DELETE'
@@ -71,7 +75,7 @@ function App() {
   }
 
   // Clear all turns
-  const handleClearAll = async () => {
+  const handleClearAll = async (): Promise<void> => {
     try {
       await fetch(`${API_URL}/turns`, {
         method: 'DELETE'
@@ -147,12 +151,12 @@ function App() {
               </button>
             )}
           </div>
-          
+
           {turns.length === 0 ? (
             <p className="empty-message">No turns yet. Add a turn to get started!</p>
           ) : (
             <div className="turns-list">
-              {turns.map((turn) => (
+              {turns.map((turn: Turn) => (
                 <div key={turn.id} className="turn-card">
                   <div className="turn-info">
                     <div className="initiative-badge">{turn.initiative}</div>
@@ -161,7 +165,7 @@ function App() {
                       <p>{turn.action}</p>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => handleDelete(turn.id)}
                     className="btn btn-delete"
                   >

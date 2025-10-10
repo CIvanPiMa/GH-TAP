@@ -31,7 +31,7 @@ dependencies = [
 
 [project.optional-dependencies]
 lint = ["mypy", "python-semantic-release", "ruff"]
-test = ["pytest", "pytest-cov", "tox"]
+test = ["behave", "coverage"]
 dev = [
     "gh_tap_back[lint]",
     "gh_tap_back[test]",
@@ -87,5 +87,5 @@ warn_return_any = true
 warn_unreachable = true
 
 #https://behave.readthedocs.io/en/latest/behave/ *----*----*----*----*----*----*----*----*----*----*----*----*----*----*
-[tool.behave]
-format = "plain"
+# [tool.behave]
+# format = ["plain"]
