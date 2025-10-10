@@ -1,0 +1,91 @@
+#https://packaging.python.org/en/latest/tutorials/packaging-projects/ ----*----*----*----*----*----*----*----*----*----*
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+#https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html ----*----*----*----*----*----*----*----*----*----*
+[project]
+name = "gh_tap_back"
+dynamic = ["version"]
+readme = { file = "README.txt", content-type = "text/markdown" }
+authors = [{ name = "Ivan Pina", email = "cs.ip.mt@gmail.com" }]
+maintainers = [{ name = "Ivan Pina", email = "cs.ip.mt@gmail.com" }]
+keywords = []
+classifiers = [
+    # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: Unix",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Utilities",
+]
+
+#Library dependencies --*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "python-dotenv",
+    "pydantic"
+]
+
+[project.optional-dependencies]
+lint = ["mypy", "python-semantic-release", "ruff"]
+test = ["pytest", "pytest-cov", "tox"]
+dev = [
+    "gh_tap_back[lint]",
+    "gh_tap_back[test]",
+]
+
+#URLs ---*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*
+[project.urls]
+Homepage = "https://github.com/CIvanPiMa/gh_tap_back.git"
+Documentation = "https://civanpima.github.io/gh_tap_back/gh_tap_back.html"
+Repository = "https://github.com/CIvanPiMa/gh_tap_back.git"
+Issues = "https://github.com/CIvanPiMa/gh_tap_back/issues"
+Changelog = "https://github.com/CIvanPiMa/gh_tap_back/blob/main/CHANGELOG.md"
+
+#https://setuptools.pypa.io/en/latest/userguide/datafiles.html -*----*----*----*----*----*----*----*----*----*----*----*
+[tool.setuptools.package-data]
+gh_tap_back = ["*.yml"]
+
+# https://python-semantic-release.readthedocs.io/en/latest/configuration.html -*----*----*----*----*----*----*----*----*
+[tool.semantic_release]
+commit_message = "Release version: v{version}"
+version_variables = ["src/gh_tap_back/__init__.py:__version__"]
+
+[tool.semantic_release.branches.main]
+match = "(main|feat/initial_project_release)"
+
+[tool.semantic_release.changelog]
+exclude_commit_patterns = [
+    "^(?!feat|fix|docs|style|refactor|test).*",
+]
+
+[tool.semantic_release.commit_author]
+env = "GIT_COMMIT_AUTHOR"
+default = "semantic-release: <semantic-release>"
+
+
+#https://docs.astral.sh/ruff/settings/ *----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*
+[tool.ruff]
+fix = true
+line-length = 120
+src = ["src"]
+extend-exclude = ["features"]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 120
+
+[tool.ruff.lint]
+
+#https://mypy.readthedocs.io/en/stable/config_file.html ---*----*----*----*----*----*----*----*----*----*----*----*----*
+[tool.mypy]
+exclude = ["\\.*venv"]
+warn_return_any = true
+warn_unreachable = true
+
+#https://behave.readthedocs.io/en/latest/behave/ *----*----*----*----*----*----*----*----*----*----*----*----*----*----*
+[tool.behave]
+format = "plain"
