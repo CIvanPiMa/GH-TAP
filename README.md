@@ -32,15 +32,15 @@ This is a full-stack micro application consisting of:
 
 1. **Start the Backend** (Terminal 1):
 
-  > NOTE: It's recommended to use a virtual environment for Python dependencies.
+> NOTE: It's recommended to use a virtual environment for Python dependencies.
 
-   ```bash
-   cd backend
-   pip install -e .
-   python src/gh_tap_back/main.py
-   ```
+```bash
+cd backend
+pip install -e .
+python src/gh_tap_back/main.py
+```
 
-   Backend will run on <http://localhost:8000>
+Backend will run on <http://localhost:8000>
 
 2. **Start the Frontend** (Terminal 2):
 
@@ -63,3 +63,7 @@ pre-commit install
 ```
 
 See individual README files in `backend/` and `frontend/` directories for more detailed development instructions.
+
+## TODOs
+
+- [ ] Split frontend components into smaller pieces

@@ -139,6 +139,7 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 # Python
+.ruff_cache/
 __pycache__/
 *.py[cod]
 *$py.class

@@ -1,19 +1,21 @@
-declare module '*.css' {
+/// <reference types="vite/client" />
+
+declare module "*.css" {
   const content: Record<string, string>;
   export default content;
 }
 
-declare module '*.scss' {
+declare module "*.scss" {
   const content: Record<string, string>;
   export default content;
 }
 
-declare module '*.sass' {
+declare module "*.sass" {
   const content: Record<string, string>;
   export default content;
 }
 
-declare module '*.less' {
+declare module "*.less" {
   const content: Record<string, string>;
   export default content;
 }

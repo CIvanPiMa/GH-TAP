@@ -16,4 +16,4 @@ export interface HealthResponse {
   message?: string;
 }
 
-export type ApiStatus = 'checking...' | 'connected' | 'disconnected';
+export type ApiStatus = "checking..." | "connected" | "disconnected";
