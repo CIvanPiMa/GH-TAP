@@ -11,12 +11,27 @@ import type {
   DeleteTurnTurnsTurnIdDeleteData,
   DeleteTurnTurnsTurnIdDeleteErrors,
   DeleteTurnTurnsTurnIdDeleteResponses,
+  GetCharacterCharactersCharacterIdGetData,
+  GetCharacterCharactersCharacterIdGetErrors,
+  GetCharacterCharactersCharacterIdGetResponses,
+  GetCharactersCharactersGetData,
+  GetCharactersCharactersGetResponses,
+  GetData,
+  GetMonsterMonstersMonsterIdGetData,
+  GetMonsterMonstersMonsterIdGetErrors,
+  GetMonsterMonstersMonsterIdGetResponses,
+  GetMonstersMonstersGetData,
+  GetMonstersMonstersGetResponses,
+  GetResponses,
+  GetScenarioScenariosScenarioIdGetData,
+  GetScenarioScenariosScenarioIdGetErrors,
+  GetScenarioScenariosScenarioIdGetResponses,
+  GetScenariosScenariosGetData,
+  GetScenariosScenariosGetResponses,
   GetTurnsTurnsGetData,
   GetTurnsTurnsGetResponses,
   HealthCheckHealthGetData,
   HealthCheckHealthGetResponses,
-  ReadRootGetData,
-  ReadRootGetResponses,
 } from "./types.gen";
 
 export type Options<
@@ -34,6 +49,146 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
+};
+
+/**
+ *
+ * Root endpoint
+ */
+export const get = <ThrowOnError extends boolean = false>(
+  options?: Options<GetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<GetResponses, unknown, ThrowOnError>({
+    url: "/",
+    ...options,
+  });
+};
+
+/**
+ * Health Check
+ * Health check endpoint
+ */
+export const healthCheckHealthGet = <ThrowOnError extends boolean = false>(
+  options?: Options<HealthCheckHealthGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    HealthCheckHealthGetResponses,
+    unknown,
+    ThrowOnError
+  >({
+    url: "/health",
+    ...options,
+  });
+};
+
+/**
+ * Get Characters
+ * Get all available characters
+ */
+export const getCharactersCharactersGet = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<GetCharactersCharactersGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetCharactersCharactersGetResponses,
+    unknown,
+    ThrowOnError
+  >({
+    url: "/characters/",
+    ...options,
+  });
+};
+
+/**
+ * Get Character
+ * Get a specific character by ID
+ */
+export const getCharacterCharactersCharacterIdGet = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetCharacterCharactersCharacterIdGetData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetCharacterCharactersCharacterIdGetResponses,
+    GetCharacterCharactersCharacterIdGetErrors,
+    ThrowOnError
+  >({
+    url: "/characters/{character_id}",
+    ...options,
+  });
+};
+
+/**
+ * Get Monsters
+ * Get all available monsters
+ */
+export const getMonstersMonstersGet = <ThrowOnError extends boolean = false>(
+  options?: Options<GetMonstersMonstersGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetMonstersMonstersGetResponses,
+    unknown,
+    ThrowOnError
+  >({
+    url: "/monsters/",
+    ...options,
+  });
+};
+
+/**
+ * Get Monster
+ * Get a specific monster by ID
+ */
+export const getMonsterMonstersMonsterIdGet = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetMonsterMonstersMonsterIdGetData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetMonsterMonstersMonsterIdGetResponses,
+    GetMonsterMonstersMonsterIdGetErrors,
+    ThrowOnError
+  >({
+    url: "/monsters/{monster_id}",
+    ...options,
+  });
+};
+
+/**
+ * Get Scenarios
+ * Get all available scenarios
+ */
+export const getScenariosScenariosGet = <ThrowOnError extends boolean = false>(
+  options?: Options<GetScenariosScenariosGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GetScenariosScenariosGetResponses,
+    unknown,
+    ThrowOnError
+  >({
+    url: "/scenarios/",
+    ...options,
+  });
+};
+
+/**
+ * Get Scenario
+ * Get a specific scenario by ID
+ */
+export const getScenarioScenariosScenarioIdGet = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<GetScenarioScenariosScenarioIdGetData, ThrowOnError>,
+) => {
+  return (options.client ?? client).get<
+    GetScenarioScenariosScenarioIdGetResponses,
+    GetScenarioScenariosScenarioIdGetErrors,
+    ThrowOnError
+  >({
+    url: "/scenarios/{scenario_id}",
+    ...options,
+  });
 };
 
 /**
@@ -106,40 +261,6 @@ export const deleteTurnTurnsTurnIdDelete = <
     ThrowOnError
   >({
     url: "/turns/{turn_id}",
-    ...options,
-  });
-};
-
-/**
- * Read Root
- * Root endpoint
- */
-export const readRootGet = <ThrowOnError extends boolean = false>(
-  options?: Options<ReadRootGetData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).get<
-    ReadRootGetResponses,
-    unknown,
-    ThrowOnError
-  >({
-    url: "/",
-    ...options,
-  });
-};
-
-/**
- * Health Check
- * Health check endpoint
- */
-export const healthCheckHealthGet = <ThrowOnError extends boolean = false>(
-  options?: Options<HealthCheckHealthGetData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).get<
-    HealthCheckHealthGetResponses,
-    unknown,
-    ThrowOnError
-  >({
-    url: "/health",
     ...options,
   });
 };

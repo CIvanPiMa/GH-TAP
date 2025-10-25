@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ApiStatus } from "../types";
-import { GhTapApiClient } from "../client";
+import { client } from "../client";
 
 export function useApiStatus() {
   const [apiStatus, setApiStatus] = useState<ApiStatus>("checking...");
@@ -8,7 +8,7 @@ export function useApiStatus() {
   useEffect(() => {
     const checkApiHealth = async () => {
       try {
-        await GhTapApiClient.checkHealth();
+        await client.checkHealth();
         setApiStatus("connected");
       } catch (error) {
         setApiStatus("disconnected");

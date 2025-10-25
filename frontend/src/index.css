@@ -1,68 +1,160 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "PirataOne";
+  src: url("/gh_assets/font/pirataone-gloomhaven.ttf") format("truetype"); /* See ASSET_PATHS.FONTS.PIRATA_ONE in config.ts */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  font-family: "PirataOne", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --color-gloom-brown: rgb(139, 69, 19);
+  --color-gloom-brown-light: rgb(202, 87, 34);
+}
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* Custom utility classes for our theme */
+.font-pirata {
+  font-family: "PirataOne", serif;
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.text-gloom-white {
+  color: rgb(255, 255, 255);
+}
+
+.text-gloom-brown-light {
+  color: rgb(202, 87, 34);
+}
+
+.bg-gloom-brown {
+  background-color: rgb(139, 69, 19);
+}
+
+.bg-gloom-brown-light {
+  background-color: rgb(202, 87, 34);
+}
+
+.border-gloom-brown {
+  border-color: rgb(139, 69, 19);
+}
+
+.hover\:bg-gloom-brown-light:hover {
+  background-color: rgb(202, 87, 34);
+}
+
+.hover\:text-gloom-brown-light:hover {
+  color: rgb(202, 87, 34);
+}
+
+/* Base styles */
+body {
+  background-color: rgb(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.9);
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: -10;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.7) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.7) 1px, transparent 1px),
+    url("/gh_assets/battle_goals/battle_goal_back.jpg"); /* See ASSET_PATHS.CARDS.BATTLE_GOAL_BACK in config.ts */
+  background-repeat: repeat;
+  background-size: 200px 280px;
+  background-attachment: fixed;
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: rgb(139, 69, 19);
+  transition: color 0.2s ease;
+  text-decoration: none;
 }
+
+p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 a:hover {
-  color: #535bf2;
+  color: rgb(160, 82, 45);
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* Component styles */
+.btn-primary {
+  background-color: rgb(139, 69, 19);
+  color: rgb(255, 255, 255);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+  border: none;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.btn-primary:hover {
+  background-color: rgb(160, 82, 45);
+  transform: translateY(-2px);
+  color: rgb(255, 255, 255);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background-color: rgb(209, 209, 209);
+  color: rgb(139, 69, 19);
+  border: 2px solid rgb(139, 69, 19);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: rgb(139, 69, 19);
+  color: rgb(255, 255, 255);
+  transform: translateY(-2px);
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(4px);
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: rgb(243, 146, 81);
+  background-color: rgba(139, 69, 19, 0.1);
+}
+
+.nav-link.active {
+  color: rgb(255, 186, 141);
+  background-color: rgba(139, 69, 19, 0.2);
 }

@@ -5,6 +5,94 @@ export type ClientOptions = {
 };
 
 /**
+ * Ability
+ */
+export type Ability = {
+  /**
+   * Name A
+   */
+  name_a: string;
+  /**
+   * Initiative A
+   */
+  initiative_a: number;
+  /**
+   * Name B
+   */
+  name_b: string;
+  /**
+   * Initiative B
+   */
+  initiative_b: number;
+};
+
+/**
+ * AbilityID
+ */
+export type AbilityId = "1" | "2" | "3" | "4";
+
+/**
+ * AbilityLevel
+ */
+export type AbilityLevel = "1" | "2";
+
+/**
+ * Character
+ */
+export type Character = {
+  /**
+   * Id
+   */
+  id: string;
+  /**
+   * Name
+   */
+  name: string;
+  /**
+   * Health Lvls
+   */
+  health_lvls: {
+    [key in CharacterHealthLevel]?: number;
+  };
+  /**
+   * Abilities
+   */
+  abilities: {
+    [key in AbilityLevel]?: {
+      [key in AbilityId]?: Ability;
+    };
+  };
+};
+
+/**
+ * CharacterHealthLevel
+ */
+export type CharacterHealthLevel = "1" | "2" | "3" | "4" | "5";
+
+/**
+ * Characters
+ */
+export type Characters = Array<Character>;
+
+/**
+ * Conditions
+ */
+export type Conditions =
+  | "invisible"
+  | "strengthen"
+  | "wound"
+  | "poison"
+  | "immobilize"
+  | "disarm"
+  | "muddle"
+  | "pierce";
+
+/**
+ * EffectTypes
+ */
+export type EffectTypes = "heal" | "shield" | "retaliate";
+
+/**
  * HTTPValidationError
  */
 export type HttpValidationError = {
@@ -13,6 +101,92 @@ export type HttpValidationError = {
    */
   detail?: Array<ValidationError>;
 };
+
+/**
+ * Monster
+ */
+export type Monster = {
+  /**
+   * Id
+   */
+  id: string;
+  /**
+   * Name
+   */
+  name: string;
+  /**
+   * Initiatives
+   */
+  initiatives: {
+    [key in MonsterInitiativeSymbol]?: number;
+  };
+  /**
+   * Persistent Bonuses
+   */
+  persistent_bonuses?: {
+    [key: string]: number;
+  };
+  /**
+   * Attack Effects
+   */
+  attack_effects?: {
+    [key in Conditions]?: number;
+  };
+  /**
+   * Immunities
+   */
+  immunities?: Array<Conditions>;
+};
+
+/**
+ * MonsterInitiativeSymbol
+ */
+export type MonsterInitiativeSymbol = "-" | "o" | "+";
+
+/**
+ * Monsters
+ */
+export type Monsters = Array<Monster>;
+
+/**
+ * MoveTypes
+ */
+export type MoveTypes = "move" | "jump" | "flying";
+
+/**
+ * Scenario
+ */
+export type Scenario = {
+  /**
+   * Id
+   */
+  id: string;
+  /**
+   * Name
+   */
+  name: string;
+  /**
+   * Level
+   */
+  level: number;
+  /**
+   * Monsters Id
+   */
+  monsters_id: Array<string>;
+  /**
+   * Special Rules
+   */
+  special_rules: Array<string>;
+  /**
+   * Goals
+   */
+  goals: Array<string>;
+};
+
+/**
+ * Scenarios
+ */
+export type Scenarios = Array<Scenario>;
 
 /**
  * Turn
@@ -64,6 +238,181 @@ export type ValidationError = {
    */
   type: string;
 };
+
+export type GetData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/";
+};
+
+export type GetResponses = {
+  /**
+   * Successful Response
+   */
+  200: unknown;
+};
+
+export type HealthCheckHealthGetData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/health";
+};
+
+export type HealthCheckHealthGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: unknown;
+};
+
+export type GetCharactersCharactersGetData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/characters/";
+};
+
+export type GetCharactersCharactersGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: Characters;
+};
+
+export type GetCharactersCharactersGetResponse =
+  GetCharactersCharactersGetResponses[keyof GetCharactersCharactersGetResponses];
+
+export type GetCharacterCharactersCharacterIdGetData = {
+  body?: never;
+  path: {
+    /**
+     * Character Id
+     */
+    character_id: string;
+  };
+  query?: never;
+  url: "/characters/{character_id}";
+};
+
+export type GetCharacterCharactersCharacterIdGetErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type GetCharacterCharactersCharacterIdGetError =
+  GetCharacterCharactersCharacterIdGetErrors[keyof GetCharacterCharactersCharacterIdGetErrors];
+
+export type GetCharacterCharactersCharacterIdGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: Character;
+};
+
+export type GetCharacterCharactersCharacterIdGetResponse =
+  GetCharacterCharactersCharacterIdGetResponses[keyof GetCharacterCharactersCharacterIdGetResponses];
+
+export type GetMonstersMonstersGetData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/monsters/";
+};
+
+export type GetMonstersMonstersGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: Monsters;
+};
+
+export type GetMonstersMonstersGetResponse =
+  GetMonstersMonstersGetResponses[keyof GetMonstersMonstersGetResponses];
+
+export type GetMonsterMonstersMonsterIdGetData = {
+  body?: never;
+  path: {
+    /**
+     * Monster Id
+     */
+    monster_id: string;
+  };
+  query?: never;
+  url: "/monsters/{monster_id}";
+};
+
+export type GetMonsterMonstersMonsterIdGetErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type GetMonsterMonstersMonsterIdGetError =
+  GetMonsterMonstersMonsterIdGetErrors[keyof GetMonsterMonstersMonsterIdGetErrors];
+
+export type GetMonsterMonstersMonsterIdGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: Monster;
+};
+
+export type GetMonsterMonstersMonsterIdGetResponse =
+  GetMonsterMonstersMonsterIdGetResponses[keyof GetMonsterMonstersMonsterIdGetResponses];
+
+export type GetScenariosScenariosGetData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/scenarios/";
+};
+
+export type GetScenariosScenariosGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: Scenarios;
+};
+
+export type GetScenariosScenariosGetResponse =
+  GetScenariosScenariosGetResponses[keyof GetScenariosScenariosGetResponses];
+
+export type GetScenarioScenariosScenarioIdGetData = {
+  body?: never;
+  path: {
+    /**
+     * Scenario Id
+     */
+    scenario_id: string;
+  };
+  query?: never;
+  url: "/scenarios/{scenario_id}";
+};
+
+export type GetScenarioScenariosScenarioIdGetErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type GetScenarioScenariosScenarioIdGetError =
+  GetScenarioScenariosScenarioIdGetErrors[keyof GetScenarioScenariosScenarioIdGetErrors];
+
+export type GetScenarioScenariosScenarioIdGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: Scenario;
+};
+
+export type GetScenarioScenariosScenarioIdGetResponse =
+  GetScenarioScenariosScenarioIdGetResponses[keyof GetScenarioScenariosScenarioIdGetResponses];
 
 export type ClearTurnsTurnsDeleteData = {
   body?: never;
@@ -147,34 +496,6 @@ export type DeleteTurnTurnsTurnIdDeleteError =
   DeleteTurnTurnsTurnIdDeleteErrors[keyof DeleteTurnTurnsTurnIdDeleteErrors];
 
 export type DeleteTurnTurnsTurnIdDeleteResponses = {
-  /**
-   * Successful Response
-   */
-  200: unknown;
-};
-
-export type ReadRootGetData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/";
-};
-
-export type ReadRootGetResponses = {
-  /**
-   * Successful Response
-   */
-  200: unknown;
-};
-
-export type HealthCheckHealthGetData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/health";
-};
-
-export type HealthCheckHealthGetResponses = {
   /**
    * Successful Response
    */

@@ -10,23 +10,17 @@ Built with React + Vite for the frontend and Python FastAPI for the backend.
 
 This is a full-stack micro application consisting of:
 
-- **Frontend**: React + Vite
-  - Modern, responsive UI
-  - Real-time turn tracking
-  - Initiative-based turn ordering
-
+- **Frontend**: React + Vite + TailwindCSS
 - **Backend**: Python + FastAPI
-  - RESTful API
-  - CORS enabled for development
-  - Auto-generated API documentation
 
 ## Quick Start
 
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- Python 3.12 or higher
-- npm or yarn
+- Python (3.12 or higher)
+- npm (or yarn)
+- pip
 
 ### Running the Application
 
@@ -63,3 +57,13 @@ pre-commit install
 ```
 
 See individual README files in `backend/` and `frontend/` directories for more detailed development instructions.
+
+## Next Steps
+
+- [ ] add game apis
+  - [ ] turn actions order
+  - [ ] character cards
+  - [ ] monster cards
+  - [ ] scenario cards
+  - [ ] item cards
+- [ ] Add user authentication

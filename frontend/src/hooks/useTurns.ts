@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Turn } from "../client/types.gen";
-import { GhTapApiClient } from "../client";
+import { client } from "../client";
 import type { TurnFormData } from "../components/TurnForm";
 
 export function useTurns() {
@@ -10,7 +10,7 @@ export function useTurns() {
   const fetchTurns = useCallback(async (): Promise<void> => {
     setIsLoading(true);
     try {
-      const data = await GhTapApiClient.getTurns();
+      const data = await client.turns.list();
       setTurns(data);
     } catch (error) {
       console.error("Error fetching turns:", error);
@@ -22,7 +22,7 @@ export function useTurns() {
   const createTurn = useCallback(
     async (turnData: TurnFormData): Promise<void> => {
       try {
-        await GhTapApiClient.createTurn(turnData);
+        await client.turns.update(turnData);
         await fetchTurns(); // Refresh the list
       } catch (error) {
         console.error("Error creating turn:", error);
@@ -35,7 +35,7 @@ export function useTurns() {
   const deleteTurn = useCallback(
     async (turnId: number): Promise<void> => {
       try {
-        await GhTapApiClient.deleteTurn(turnId);
+        await client.turns.delete(turnId);
         await fetchTurns(); // Refresh the list
       } catch (error) {
         console.error("Error deleting turn:", error);
@@ -47,7 +47,7 @@ export function useTurns() {
 
   const clearAllTurns = useCallback(async (): Promise<void> => {
     try {
-      await GhTapApiClient.clearAllTurns();
+      await client.turns.deleteAll();
       await fetchTurns(); // Refresh the list
     } catch (error) {
       console.error("Error clearing turns:", error);

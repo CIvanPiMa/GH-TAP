@@ -1,24 +1,21 @@
-import "./App.css";
-import { ApiStatusDisplay, TurnForm, TurnsList } from "./components";
-import { useApiStatus, useTurns } from "./hooks";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Navigation } from "./components";
+import { Home, NewScenario, Scenario } from "./pages";
 
 function App() {
-  const apiStatus = useApiStatus();
-  const { turns, createTurn, deleteTurn, clearAllTurns } = useTurns();
-
   return (
-    <div className="app">
-      <ApiStatusDisplay status={apiStatus} />
-
-      <div className="container">
-        <TurnForm onSubmit={createTurn} />
-        <TurnsList
-          turns={turns}
-          onDeleteTurn={deleteTurn}
-          onClearAll={clearAllTurns}
-        />
+    <Router>
+      <div className="min-h-screen">
+        <Navigation />
+        <main className="p-4 lg:p-8 w-full box-border">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/new-scenario" element={<NewScenario />} />
+            <Route path="/scenario" element={<Scenario />} />
+          </Routes>
+        </main>
       </div>
-    </div>
+    </Router>
   );
 }
 

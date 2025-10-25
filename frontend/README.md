@@ -6,9 +6,9 @@ This is the frontend for the GH:TAP built with React and Vite.
 
 1. Install dependencies:
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 ## Running the Application
 
@@ -50,4 +50,36 @@ To generate the TypeScript client SDK, run:
 npm run generate:sdk
 ```
 
-> **NOTE**: This requires the OpenAPI spec to be available at `../backend/openapi.json`. Make sure to generate it using the backend script if it doesn't exist. See the [backend README](../backend/README.md#generate-the-openapi-spec) for instructions.
+This command generates the OpenAPI schema from the FastAPI backend and then uses `openapi-ts` to create the TypeScript client SDK in `src/client`.
+
+### Use the Client SDK
+
+Use the [client wrapper](./src/client.ts) to interact with the backend API.
+The Client is organized by entity with consistent verb naming:
+
+```typescript
+client.{entity}.{verb}()
+```
+
+Where `{entity}` can be:
+
+- `characters`
+- `monsters`
+- `scenarios`
+- etc...
+
+Available verbs:
+
+- `list()` - Get all items
+- `get(id)` - Get a specific item by ID
+- `update(data)` - Create or update an item
+- `delete(id)` - Delete a specific item
+- `deleteAll()` - Delete all items (where applicable)
+
+```typescript
+// List all characters
+const characters = await client.characters.list();
+
+// Get a specific character by ID
+const character = await client.characters.get("1");
+```
