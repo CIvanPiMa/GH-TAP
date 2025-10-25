@@ -1,30 +1,16 @@
-from gh_tap_back import __version__
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
-from gh_tap_back.routers import root, turns
-
-app = FastAPI(
-    title="GH:TAP API",
-    description="Backend API for GH:TAP",
-    root_path="/api/v1",
-    version=__version__,
-)
-
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Vite default port
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+import uvicorn
+import signal
+import sys
 
 
-app.include_router(turns.router)
-app.include_router(root.router)
+def cleanup_and_exit(signum, frame):
+    print("\nShutting down gracefully...")
+    sys.exit(0)
+
+
+# Register signal handlers for graceful shutdown
+signal.signal(signal.SIGINT, cleanup_and_exit)
+signal.signal(signal.SIGTERM, cleanup_and_exit)
 
 if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("gh_tap_back.app:main", host="0.0.0.0", port=8000, reload=True, reload_dirs=["./backend/"])

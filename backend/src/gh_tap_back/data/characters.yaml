@@ -1,0 +1,51 @@
+- id: "1"
+  name: Silent Knife
+  health_lvls:
+    "1": 11
+    "2": 12
+    "3": 14
+    "4": 15
+    "5": 17
+  abilities:
+    "1":
+      "1":
+        name_a: Smoke Bomb
+        initiative_a: 12
+        name_b: Throwing Knives
+        initiative_b: 85
+      "2":
+        name_a: Thief's Knack
+        initiative_a: 23
+        name_b: Single Out
+        initiative_b: 11
+      "3":
+        name_a: Venom Shiv
+        initiative_a: 60
+        name_b: Backstab
+        initiative_b: 62
+      "4":
+        name_a: Quick Reflexes
+        initiative_a: 64
+        name_b: Special Mixture
+        initiative_b: 38
+    "2":
+      "1":
+        name_a: Long Con
+        initiative_a: 2
+        name_b: Serrated Arrows
+        initiative_b: 95
+      "2":
+        name_a: Spring the Trap
+        initiative_a: 13
+        name_b: Open Wound
+        initiative_b: 4
+      "3":
+        name_a: Watch it Burn
+        initiative_a: 98
+        name_b: Gruesome Advantage
+        initiative_b: 6
+      "4":
+        name_a: Duelist's Advance
+        initiative_a: 16
+        name_b: Pain's End
+        initiative_b: 33

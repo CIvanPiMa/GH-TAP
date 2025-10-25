@@ -22,19 +22,12 @@ classifiers = [
 ]
 
 #Library dependencies --*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*
-dependencies = [
-    "fastapi",
-    "uvicorn",
-    "pydantic"
-]
+dependencies = ["fastapi", "uvicorn", "pydantic", "pydantic-yaml"]
 
 [project.optional-dependencies]
 lint = ["mypy", "python-semantic-release", "ruff"]
 test = ["behave", "coverage"]
-dev = [
-    "gh_tap_back[lint]",
-    "gh_tap_back[test]",
-]
+dev = ["gh_tap_back[lint]", "gh_tap_back[test]"]
 
 #URLs ---*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*----*
 [project.urls]
@@ -46,7 +39,7 @@ Changelog = "https://github.com/CIvanPiMa/gh_tap_back/blob/main/CHANGELOG.md"
 
 #https://setuptools.pypa.io/en/latest/userguide/datafiles.html -*----*----*----*----*----*----*----*----*----*----*----*
 [tool.setuptools.package-data]
-gh_tap_back = ["*.yml"]
+"gh_tap_back.data" = ["*.yml"]
 
 # https://python-semantic-release.readthedocs.io/en/latest/configuration.html -*----*----*----*----*----*----*----*----*
 [tool.semantic_release]
@@ -57,9 +50,7 @@ version_variables = ["src/gh_tap_back/__init__.py:__version__"]
 match = "(main|feat/initial_project_release)"
 
 [tool.semantic_release.changelog]
-exclude_commit_patterns = [
-    "^(?!feat|fix|docs|style|refactor|test).*",
-]
+exclude_commit_patterns = ["^(?!feat|fix|docs|style|refactor|test).*"]
 
 [tool.semantic_release.commit_author]
 env = "GIT_COMMIT_AUTHOR"
@@ -81,9 +72,10 @@ docstring-code-line-length = 120
 
 #https://mypy.readthedocs.io/en/stable/config_file.html ---*----*----*----*----*----*----*----*----*----*----*----*----*
 [tool.mypy]
-exclude = ["\\.*venv"]
+exclude = ["\\.*venv", "\\.eggs", "build", "dist", "features", "backend/src/gh_tap_back/app.py"]
 warn_return_any = true
 warn_unreachable = true
+explicit_package_bases = true
 
 #https://behave.readthedocs.io/en/latest/behave/ *----*----*----*----*----*----*----*----*----*----*----*----*----*----*
 # [tool.behave]

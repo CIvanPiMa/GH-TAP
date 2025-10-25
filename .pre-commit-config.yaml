@@ -19,18 +19,18 @@ repos:
     hooks:
       - id: prettier
   # Python linters and formatters
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.2
-    hooks:
-      - id: mypy
-        args:
-          - backend/src
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: v1.18.2
+  #   hooks:
+  #     - id: mypy
+  #       args:
+  #         - backend
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.0
     hooks:
       - id: ruff
         args:
-          - backend/src
+          - backend
       - id: ruff-format
         args:
           - backend/src

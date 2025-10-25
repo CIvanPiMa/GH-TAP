@@ -1,0 +1,20 @@
+- id: "13"
+  name: "Zipping Across"
+  level: 4
+  monsters_id:
+    - "6"
+    - "7"
+  special_rules:
+    - Whenever a Harrowing Infestation is defeated, spawn a one Spitting Moth at the start of the next round, first in 'A' and then in 'B'.
+  goals:
+    - Defeat all monsters.
+- id: "14"
+  name: "The Bouncer"
+  level: 4
+  monsters_id:
+    - "12"
+    - "13"
+  special_rules:
+    - When the Stuffed Construct is defeated, spawn the Tattered Construct in the hex it occupied. (It acts in the same round it was spawned.)
+  goals:
+    - Defeat all monsters.

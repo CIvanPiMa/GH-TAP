@@ -1,0 +1,45 @@
+- id: "6"
+  name: Harrowing Infestation
+  health: 9
+  initiatives:
+    "-": 7
+    "o": 16
+    "+": 38
+  bonus:
+    retaliate: 1
+    muddle: 1
+- id: "7"
+  name: Spitting Moth
+  health: 8
+  initiatives:
+    "-": 27
+    "o": 52
+    "+": 87
+  attack_effects:
+    muddle: 1
+  persistent_bonuses:
+    flying: 1
+- id: "12"
+  name: Stuffed Construct
+  health: 12
+  initiatives:
+    "-": 10
+    "o": 45
+    "+": 70
+  persistent_bonuses:
+    shield: 3
+  immunities:
+    - disarm
+    - immobilize
+- id: "13"
+  name: Tattered Construct
+  health: 16
+  initiatives:
+    "-": 4
+    "o": 76
+    "+": 95
+  persistent_bonuses:
+    shield: 1
+  immunities:
+    - disarm
+    - immobilize
