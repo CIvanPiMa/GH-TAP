@@ -1,22 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCharacters } from "../hooks";
+import { useCharacters, useScenarios } from "../hooks";
+import type { Scenario } from "../client/types.gen";
 
 interface ScenarioForm {
-  scenarioNumber: string;
+  scenario: Scenario | null;
   difficulty: string;
   character: string;
 }
 
 const NewScenario: React.FC = () => {
   const navigate = useNavigate();
-  const { characters, loading, error } = useCharacters();
+  const {
+    characters,
+    loading: charactersLoading,
+    error: charactersError,
+  } = useCharacters();
+  const {
+    scenarios,
+    loading: scenariosLoading,
+    error: scenariosError,
+  } = useScenarios();
 
   const [formData, setFormData] = useState<ScenarioForm>({
-    scenarioNumber: "",
+    scenario: null,
     difficulty: "normal",
     character: "",
   });
+
+  const [scenarioSearch, setScenarioSearch] = useState("");
+  const [showScenarioDropdown, setShowScenarioDropdown] = useState(false);
 
   // Update default character when characters are loaded
   useEffect(() => {
@@ -24,6 +37,13 @@ const NewScenario: React.FC = () => {
       setFormData((prev) => ({ ...prev, character: characters[0].id }));
     }
   }, [characters, formData.character]);
+
+  // Filter scenarios based on search
+  const filteredScenarios = scenarios.filter(
+    (scenario) =>
+      scenario.name.toLowerCase().includes(scenarioSearch.toLowerCase()) ||
+      scenario.id.includes(scenarioSearch),
+  );
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -37,8 +57,23 @@ const NewScenario: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.scenario) {
+      alert("Please select a scenario");
+      return;
+    }
+
+    if (!formData.character) {
+      alert("Please select a character");
+      return;
+    }
+
     // TODO: Save scenario data and navigate to the scenario page
-    console.log("New scenario created:", formData);
+    console.log("New scenario created:", {
+      scenario: formData.scenario,
+      difficulty: formData.difficulty,
+      character: formData.character,
+    });
     navigate("/scenario");
   };
 
@@ -50,23 +85,84 @@ const NewScenario: React.FC = () => {
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
+          <div className="relative">
             <label
-              htmlFor="scenarioNumber"
+              htmlFor="scenario"
               className="block mb-2 font-medium text-white"
             >
-              Scenario Number:
+              Select Scenario:
             </label>
-            <input
-              type="text"
-              id="scenarioNumber"
-              name="scenarioNumber"
-              value={formData.scenarioNumber}
-              onChange={handleInputChange}
-              placeholder="e.g., 1, 15, etc."
-              required
-              className="w-full p-3 border border-white/20 rounded-lg bg-white/5 text-white text-lg focus:outline-none focus:border-gloom-brown focus:bg-white/10 transition-all"
-            />
+            {scenariosLoading && (
+              <div className="text-center py-4">
+                <div className="text-white">Loading scenarios...</div>
+              </div>
+            )}
+            {scenariosError && (
+              <div className="text-center py-4">
+                <div className="text-red-400">
+                  Error loading scenarios: {scenariosError}
+                </div>
+              </div>
+            )}
+            {!scenariosLoading && !scenariosError && (
+              <div className="relative">
+                <input
+                  type="text"
+                  id="scenario"
+                  value={
+                    formData.scenario
+                      ? `${formData.scenario.id} - ${formData.scenario.name}`
+                      : scenarioSearch
+                  }
+                  onChange={(e) => {
+                    setScenarioSearch(e.target.value);
+                    setShowScenarioDropdown(true);
+                    if (!e.target.value) {
+                      setFormData((prev) => ({ ...prev, scenario: null }));
+                    }
+                  }}
+                  onFocus={() => setShowScenarioDropdown(true)}
+                  onBlur={() => {
+                    // Delay hiding to allow click on dropdown items
+                    setTimeout(() => setShowScenarioDropdown(false), 200);
+                  }}
+                  placeholder="Search scenarios by name or number..."
+                  required
+                  className="w-full p-3 border border-white/20 rounded-lg bg-white/5 text-white text-lg focus:outline-none focus:border-gloom-brown focus:bg-white/10 transition-all"
+                />
+                {showScenarioDropdown && filteredScenarios.length > 0 && (
+                  <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+                    {filteredScenarios.map((scenario) => (
+                      <div
+                        key={scenario.id}
+                        onClick={() => {
+                          setFormData((prev) => ({ ...prev, scenario }));
+                          setScenarioSearch("");
+                          setShowScenarioDropdown(false);
+                        }}
+                        className="p-3 hover:bg-white/10 cursor-pointer border-b border-white/10 last:border-b-0 transition-colors"
+                      >
+                        <div className="text-white font-medium">
+                          Scenario {scenario.id}: {scenario.name}
+                        </div>
+                        <div className="text-white/70 text-sm mt-1">
+                          Level {scenario.level}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {showScenarioDropdown &&
+                  filteredScenarios.length === 0 &&
+                  scenarioSearch && (
+                    <div className="absolute z-10 w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-xl p-3">
+                      <div className="text-white/70">
+                        No scenarios found matching "{scenarioSearch}"
+                      </div>
+                    </div>
+                  )}
+              </div>
+            )}
           </div>
 
           <div>
@@ -95,19 +191,19 @@ const NewScenario: React.FC = () => {
             <label className="block mb-4 font-medium text-white">
               Select Character:
             </label>
-            {loading && (
+            {charactersLoading && (
               <div className="text-center py-8">
                 <div className="text-white">Loading characters...</div>
               </div>
             )}
-            {error && (
+            {charactersError && (
               <div className="text-center py-8">
                 <div className="text-red-400">
-                  Error loading characters: {error}
+                  Error loading characters: {charactersError}
                 </div>
               </div>
             )}
-            {!loading && !error && (
+            {!charactersLoading && !charactersError && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {characters.map((character) => (
                   <div
@@ -156,15 +252,15 @@ const NewScenario: React.FC = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8">
+            <button type="submit" className="btn-primary">
+              Start Scenario
+            </button>
             <button
               type="button"
               onClick={() => navigate("/")}
               className="px-6 py-3 bg-white/30 text-white/70 border border-white/30 rounded-lg hover:text-white hover:border-white/50 transition-all"
             >
               Cancel
-            </button>
-            <button type="submit" className="btn-primary">
-              Start Scenario
             </button>
           </div>
         </form>

@@ -2,11 +2,7 @@
  * Utility functions for the GH-TAP application
  */
 
-import {
-  ASSET_PATHS,
-  CHARACTER_ICONS,
-  DEFAULT_CHARACTER_ICON,
-} from "../config";
+import { ASSET_PATHS, CHARACTER_ICONS, DEFAULT_CHARACTER_ICON } from "./config";
 
 /**
  * Get the icon path for a character by ID

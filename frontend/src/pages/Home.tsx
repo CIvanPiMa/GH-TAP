@@ -5,7 +5,7 @@ const Home: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto text-center">
       <h1 className="text-4xl lg:text-6xl mb-4 text-gloom-brown font-pirata">
-        Gloomhaven TAP
+        GLOOMHAVEN TAP
       </h1>
       <p className="text-lg lg:text-xl mb-8 lg:mb-12 text-black font-medium">
         Your digital companion for Gloomhaven adventures!

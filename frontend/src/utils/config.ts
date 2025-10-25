@@ -3,24 +3,6 @@
  *
  * This file centralizes all configuration values used throughout the application,
  * including API endpoints, asset paths, theme colors, and other constants.
- *
- * Usage examples:
- *
- * ```typescript
- * import { API_CONFIG, ASSET_PATHS, CHARACTER_ICONS, getApiUrl } from './config';
- *
- * // API usage
- * const apiUrl = getApiUrl('characters');
- *
- * // Asset paths
- * const iconPath = CHARACTER_ICONS['1'];
- * const fontPath = ASSET_PATHS.FONTS.PIRATA_ONE;
- *
- * // Theme colors (in JavaScript/TypeScript - CSS uses custom properties)
- * const primaryColor = THEME.COLORS.GLOOM_BROWN;
- * ```
- *
- * For utility functions, see './utils/index.ts'
  */
 
 // API Configuration
@@ -29,15 +11,27 @@ export const API_CONFIG = {
   BASE_URL: import.meta.env.VITE_GH_TAP_API_URL_BASE || "http://localhost:8000",
 } as const;
 
+// Application Configuration
+export const APP_CONFIG = {
+  NAME: "GH-TAP",
+  DESCRIPTION: "Gloomhaven Turn Action Planner",
+} as const;
+
+// Utility function to get full API URL
+export const getApiUrl = (endpoint?: string): string => {
+  const baseUrl = `${API_CONFIG.BASE_URL}/api/${API_CONFIG.VERSION}`;
+  return endpoint ? `${baseUrl}/${endpoint}` : baseUrl;
+};
+
+// Utility function to get asset URL
+export const getAssetUrl = (path: string): string => {
+  return path.startsWith("/") ? path : `${ASSET_PATHS.GH_ASSETS}/${path}`;
+};
+
 // Asset Paths
 export const ASSET_PATHS = {
   // Base path for Gloomhaven assets
   GH_ASSETS: "/gh_assets",
-
-  // Font paths
-  FONTS: {
-    PIRATA_ONE: "/gh_assets/font/pirataone-gloomhaven.ttf",
-  },
 
   // Icon paths
   ICONS: {
@@ -99,33 +93,3 @@ export const CHARACTER_ICONS: Record<string, string> = {
 
 // Default character icon
 export const DEFAULT_CHARACTER_ICON = `${ASSET_PATHS.ICONS.CLASS_ICONS_BASE}/0001.jpg`;
-
-// Theme Configuration
-export const THEME = {
-  COLORS: {
-    GLOOM_BROWN: "rgb(139, 69, 19)",
-    GLOOM_BROWN_LIGHT: "rgb(202, 87, 34)",
-    GLOOM_WHITE: "rgb(255, 255, 255)",
-  },
-  FONTS: {
-    PRIMARY: '"PirataOne", system-ui, Avenir, Helvetica, Arial, sans-serif',
-    PIRATA: '"PirataOne", serif',
-  },
-} as const;
-
-// Application Configuration
-export const APP_CONFIG = {
-  NAME: "GH-TAP",
-  DESCRIPTION: "Gloomhaven Turn Action Planner",
-} as const;
-
-// Utility function to get full API URL
-export const getApiUrl = (endpoint?: string): string => {
-  const baseUrl = `${API_CONFIG.BASE_URL}/api/${API_CONFIG.VERSION}`;
-  return endpoint ? `${baseUrl}/${endpoint}` : baseUrl;
-};
-
-// Utility function to get asset URL
-export const getAssetUrl = (path: string): string => {
-  return path.startsWith("/") ? path : `${ASSET_PATHS.GH_ASSETS}/${path}`;
-};

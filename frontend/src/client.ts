@@ -21,7 +21,7 @@ import type {
   Scenario,
   Scenarios,
 } from "./client/types.gen";
-import { getApiUrl } from "./config";
+import { getApiUrl } from "./utils/config";
 
 // Create configured client
 const apiClient = createClient(
