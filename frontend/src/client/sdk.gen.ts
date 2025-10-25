@@ -3,14 +3,6 @@
 import type { Client, Options as Options2, TDataShape } from "./client";
 import { client } from "./client.gen";
 import type {
-  ClearTurnsTurnsDeleteData,
-  ClearTurnsTurnsDeleteResponses,
-  CreateTurnTurnsPostData,
-  CreateTurnTurnsPostErrors,
-  CreateTurnTurnsPostResponses,
-  DeleteTurnTurnsTurnIdDeleteData,
-  DeleteTurnTurnsTurnIdDeleteErrors,
-  DeleteTurnTurnsTurnIdDeleteResponses,
   GetCharacterCharactersCharacterIdGetData,
   GetCharacterCharactersCharacterIdGetErrors,
   GetCharacterCharactersCharacterIdGetResponses,
@@ -28,8 +20,6 @@ import type {
   GetScenarioScenariosScenarioIdGetResponses,
   GetScenariosScenariosGetData,
   GetScenariosScenariosGetResponses,
-  GetTurnsTurnsGetData,
-  GetTurnsTurnsGetResponses,
   HealthCheckHealthGetData,
   HealthCheckHealthGetResponses,
 } from "./types.gen";
@@ -187,80 +177,6 @@ export const getScenarioScenariosScenarioIdGet = <
     ThrowOnError
   >({
     url: "/scenarios/{scenario_id}",
-    ...options,
-  });
-};
-
-/**
- * Clear Turns
- * Clear all turns
- */
-export const clearTurnsTurnsDelete = <ThrowOnError extends boolean = false>(
-  options?: Options<ClearTurnsTurnsDeleteData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).delete<
-    ClearTurnsTurnsDeleteResponses,
-    unknown,
-    ThrowOnError
-  >({
-    url: "/turns/",
-    ...options,
-  });
-};
-
-/**
- * Get Turns
- * Get all turns
- */
-export const getTurnsTurnsGet = <ThrowOnError extends boolean = false>(
-  options?: Options<GetTurnsTurnsGetData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).get<
-    GetTurnsTurnsGetResponses,
-    unknown,
-    ThrowOnError
-  >({
-    url: "/turns/",
-    ...options,
-  });
-};
-
-/**
- * Create Turn
- * Create a new turn
- */
-export const createTurnTurnsPost = <ThrowOnError extends boolean = false>(
-  options: Options<CreateTurnTurnsPostData, ThrowOnError>,
-) => {
-  return (options.client ?? client).post<
-    CreateTurnTurnsPostResponses,
-    CreateTurnTurnsPostErrors,
-    ThrowOnError
-  >({
-    url: "/turns/",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-  });
-};
-
-/**
- * Delete Turn
- * Delete a turn by ID
- */
-export const deleteTurnTurnsTurnIdDelete = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DeleteTurnTurnsTurnIdDeleteData, ThrowOnError>,
-) => {
-  return (options.client ?? client).delete<
-    DeleteTurnTurnsTurnIdDeleteResponses,
-    DeleteTurnTurnsTurnIdDeleteErrors,
-    ThrowOnError
-  >({
-    url: "/turns/{turn_id}",
     ...options,
   });
 };

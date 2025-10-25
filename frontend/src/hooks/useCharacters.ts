@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { client } from "../client";
 import type { Character } from "../client/types.gen";
-import { getCharacterIconPath } from "../utils";
+import { getCharacterIconPath } from "../utils/assetsGetter";
 
 interface CharacterWithIcon extends Character {
   iconPath: string;

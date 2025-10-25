@@ -90,6 +90,3 @@ export const CHARACTER_ICONS: Record<string, string> = {
   "5": `${ASSET_PATHS.ICONS.CLASS_ICONS_BASE}/0018.jpg`, // Mindthief
   "6": `${ASSET_PATHS.ICONS.CLASS_ICONS_BASE}/0019.jpg`, // Tinkerer
 };
-
-// Default character icon
-export const DEFAULT_CHARACTER_ICON = `${ASSET_PATHS.ICONS.CLASS_ICONS_BASE}/0001.jpg`;

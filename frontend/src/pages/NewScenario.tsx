@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCharacters, useScenarios } from "../hooks";
+import {
+  setToLocalStorage,
+  getFromLocalStorage,
+  STORAGE_KEYS,
+} from "../utils/localStorage";
 import type { Scenario } from "../client/types.gen";
+import type { GameData } from "../types";
 
 interface ScenarioForm {
   scenario: Scenario | null;
@@ -68,19 +74,48 @@ const NewScenario: React.FC = () => {
       return;
     }
 
-    // TODO: Save scenario data and navigate to the scenario page
-    console.log("New scenario created:", {
-      scenario: formData.scenario,
+    // Find the selected character to get its name
+    const selectedCharacter = characters.find(
+      (char) => char.id === formData.character,
+    );
+
+    // Save scenario data to localStorage
+    const gameData: GameData = {
+      scenario: {
+        id: formData.scenario.id,
+        name: formData.scenario.name,
+        level: formData.scenario.level,
+      },
       difficulty: formData.difficulty,
-      character: formData.character,
-    });
-    navigate("/scenario");
+      character: {
+        id: formData.character,
+        name: selectedCharacter?.name || formData.character,
+      },
+      createdAt: new Date().toISOString(),
+      gameId: `game-${Date.now()}`, // Simple ID generation
+    };
+
+    // Get existing games from localStorage and add the new one
+    const existingGames = getFromLocalStorage<GameData[]>(
+      STORAGE_KEYS.GAMES,
+      [],
+    );
+    const updatedGames = [...existingGames, gameData];
+
+    // Save updated games list to localStorage
+    setToLocalStorage(STORAGE_KEYS.GAMES, updatedGames);
+
+    // Set the new game as the current game
+    setToLocalStorage(STORAGE_KEYS.CURRENT_GAME, gameData);
+
+    console.log("New scenario created and saved:", gameData);
+    navigate("/game");
   };
 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="card">
-        <h1 className="text-center text-gloom-brown mb-8 text-3xl font-pirata">
+        <h1 className="text-center gloom-brown-light mb-8 text-3xl">
           Start New Scenario
         </h1>
 
@@ -241,7 +276,7 @@ const NewScenario: React.FC = () => {
                           {character.name[0]}
                         </div>
                       </div>
-                      <h3 className="font-pirata text-lg text-white mb-1">
+                      <h3 className="text-lg text-white mb-1">
                         {character.name}
                       </h3>
                     </div>

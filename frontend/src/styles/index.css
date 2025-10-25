@@ -22,6 +22,10 @@
   color: var(--color-gloom-white);
 }
 
+.text-gloom-brown {
+  color: var(--color-gloom-brown);
+}
+
 .text-gloom-brown-light {
   color: var(--color-gloom-brown-light);
 }

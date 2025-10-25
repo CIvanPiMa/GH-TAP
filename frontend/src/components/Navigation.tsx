@@ -13,7 +13,7 @@ const Navigation: React.FC = () => {
       <div className="nav-brand">
         <Link
           to="/"
-          className="text-xl lg:text-2xl font-bold text-gloom-white hover:text-gloom-brown-light transition-colors font-pirata"
+          className="text-xl lg:text-2xl font-bold text-gloom-white hover:text-gloom-brown-light transition-colors"
         >
           GH-TAP
         </Link>
@@ -30,8 +30,8 @@ const Navigation: React.FC = () => {
           New Scenario
         </Link>
         <Link
-          to="/scenario"
-          className={`nav-link ${isActive("/scenario") ? "active" : ""}`}
+          to="/game"
+          className={`nav-link ${isActive("/game") ? "active" : ""}`}
         >
           Current Scenario
         </Link>

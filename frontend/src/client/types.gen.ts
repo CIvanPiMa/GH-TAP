@@ -8,33 +8,33 @@ export type ClientOptions = {
  * Ability
  */
 export type Ability = {
-  /**
-   * Name A
-   */
-  name_a: string;
-  /**
-   * Initiative A
-   */
-  initiative_a: number;
-  /**
-   * Name B
-   */
-  name_b: string;
-  /**
-   * Initiative B
-   */
-  initiative_b: number;
+  a: AbilityAction;
+  b: AbilityAction;
 };
 
 /**
- * AbilityID
+ * AbilityAction
  */
-export type AbilityId = "1" | "2" | "3" | "4";
+export type AbilityAction = {
+  /**
+   * Name
+   */
+  name: string;
+  /**
+   * Initiative
+   */
+  initiative: number;
+};
 
 /**
- * AbilityLevel
+ * CardID
  */
-export type AbilityLevel = "1" | "2";
+export type CardId = "1" | "2" | "3" | "4";
+
+/**
+ * CardLevel
+ */
+export type CardLevel = "1" | "2";
 
 /**
  * Character
@@ -58,8 +58,8 @@ export type Character = {
    * Abilities
    */
   abilities: {
-    [key in AbilityLevel]?: {
-      [key in AbilityId]?: Ability;
+    [key in CardId]?: {
+      [key in CardLevel]?: Ability;
     };
   };
 };
@@ -187,39 +187,6 @@ export type Scenario = {
  * Scenarios
  */
 export type Scenarios = Array<Scenario>;
-
-/**
- * Turn
- */
-export type Turn = {
-  /**
-   * Id
-   */
-  id?: number | null;
-  /**
-   * Player
-   */
-  player: string;
-  /**
-   * Action
-   */
-  action: string;
-  /**
-   * Initiative
-   */
-  initiative: number;
-};
-
-/**
- * TurnResponse
- */
-export type TurnResponse = {
-  /**
-   * Message
-   */
-  message: string;
-  turn: Turn;
-};
 
 /**
  * ValidationError
@@ -413,91 +380,3 @@ export type GetScenarioScenariosScenarioIdGetResponses = {
 
 export type GetScenarioScenariosScenarioIdGetResponse =
   GetScenarioScenariosScenarioIdGetResponses[keyof GetScenarioScenariosScenarioIdGetResponses];
-
-export type ClearTurnsTurnsDeleteData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/turns/";
-};
-
-export type ClearTurnsTurnsDeleteResponses = {
-  /**
-   * Successful Response
-   */
-  200: unknown;
-};
-
-export type GetTurnsTurnsGetData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/turns/";
-};
-
-export type GetTurnsTurnsGetResponses = {
-  /**
-   * Response Get Turns Turns  Get
-   * Successful Response
-   */
-  200: Array<Turn>;
-};
-
-export type GetTurnsTurnsGetResponse =
-  GetTurnsTurnsGetResponses[keyof GetTurnsTurnsGetResponses];
-
-export type CreateTurnTurnsPostData = {
-  body: Turn;
-  path?: never;
-  query?: never;
-  url: "/turns/";
-};
-
-export type CreateTurnTurnsPostErrors = {
-  /**
-   * Validation Error
-   */
-  422: HttpValidationError;
-};
-
-export type CreateTurnTurnsPostError =
-  CreateTurnTurnsPostErrors[keyof CreateTurnTurnsPostErrors];
-
-export type CreateTurnTurnsPostResponses = {
-  /**
-   * Successful Response
-   */
-  200: TurnResponse;
-};
-
-export type CreateTurnTurnsPostResponse =
-  CreateTurnTurnsPostResponses[keyof CreateTurnTurnsPostResponses];
-
-export type DeleteTurnTurnsTurnIdDeleteData = {
-  body?: never;
-  path: {
-    /**
-     * Turn Id
-     */
-    turn_id: number;
-  };
-  query?: never;
-  url: "/turns/{turn_id}";
-};
-
-export type DeleteTurnTurnsTurnIdDeleteErrors = {
-  /**
-   * Validation Error
-   */
-  422: HttpValidationError;
-};
-
-export type DeleteTurnTurnsTurnIdDeleteError =
-  DeleteTurnTurnsTurnIdDeleteErrors[keyof DeleteTurnTurnsTurnIdDeleteErrors];
-
-export type DeleteTurnTurnsTurnIdDeleteResponses = {
-  /**
-   * Successful Response
-   */
-  200: unknown;
-};

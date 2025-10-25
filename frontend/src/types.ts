@@ -1,19 +1,14 @@
-export interface Turn {
-  id: number;
-  player: string;
-  action: string;
-  initiative: number;
+export interface GameData {
+  gameId: string;
+  scenario: {
+    id: string;
+    name: string;
+    level: number;
+  };
+  difficulty: string;
+  character: {
+    id: string;
+    name: string;
+  };
+  createdAt: string;
 }
-
-export interface ApiResponse<T> {
-  data?: T;
-  message?: string;
-  error?: string;
-}
-
-export interface HealthResponse {
-  status: string;
-  message?: string;
-}
-
-export type ApiStatus = "checking..." | "connected" | "disconnected";

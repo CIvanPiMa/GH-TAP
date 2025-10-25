@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navigation } from "./components";
-import { Home, NewScenario, Scenario } from "./pages";
+import { Home, NewScenario, Game, NotFound } from "./pages";
 
 function App() {
   return (
@@ -11,7 +11,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/new-scenario" element={<NewScenario />} />
-            <Route path="/scenario" element={<Scenario />} />
+            <Route path="/game" element={<Game />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
       </div>

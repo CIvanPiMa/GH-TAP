@@ -2,7 +2,7 @@
  * Utility functions for the GH-TAP application
  */
 
-import { ASSET_PATHS, CHARACTER_ICONS, DEFAULT_CHARACTER_ICON } from "./config";
+import { ASSET_PATHS, CHARACTER_ICONS } from "./config";
 
 /**
  * Get the icon path for a character by ID
@@ -10,7 +10,7 @@ import { ASSET_PATHS, CHARACTER_ICONS, DEFAULT_CHARACTER_ICON } from "./config";
  * @returns The full path to the character icon
  */
 export const getCharacterIconPath = (characterId: string): string => {
-  return CHARACTER_ICONS[characterId] || DEFAULT_CHARACTER_ICON;
+  return CHARACTER_ICONS[characterId];
 };
 
 /**
