@@ -1,33 +1,42 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "main.py",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/src/athleanscrap/main.py",
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src:${env:PYTHONPATH}"
-            },
-            "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "name": "Current File",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/src:${env:PYTHONPATH}"
-            },
-            "envFile": "${workspaceFolder}/.env"
-
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Backend: Start",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/src/gh_tap_back/main.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend/src:${env:PYTHONPATH}"
+      },
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Python: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend/src:${env:PYTHONPATH}"
+      },
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Frontend: Start (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/frontend/src",
+      "sourceMaps": true,
+      "userDataDir": "${workspaceFolder}/.vscode/chrome-debug-user-data",
+      "preLaunchTask": "Frontend: dev"
+    }
+  ]
 }
