@@ -3,23 +3,26 @@ from typing import List
 from pydantic import BaseModel, RootModel
 
 
-class AbilityLevel(Enum):
-    ONE = "1"
-    TWO = "2"
-
-
-class AbilityID(Enum):
+class CardID(Enum):
     ONE = "1"
     TWO = "2"
     THREE = "3"
     FOUR = "4"
 
 
+class CardLevel(Enum):
+    ONE = "1"
+    TWO = "2"
+
+
+class AbilityAction(BaseModel):
+    name: str
+    initiative: int
+
+
 class Ability(BaseModel):
-    name_a: str
-    initiative_a: int
-    name_b: str
-    initiative_b: int
+    a: AbilityAction
+    b: AbilityAction
 
 
 class CharacterHealthLevel(Enum):
@@ -34,7 +37,7 @@ class Character(BaseModel):
     id: str
     name: str
     health_lvls: dict[CharacterHealthLevel, int]
-    abilities: dict[AbilityLevel, dict[AbilityID, Ability]]
+    abilities: dict[CardID, dict[CardLevel, Ability]]
 
 
 class Characters(RootModel):

@@ -9,43 +9,61 @@
   abilities:
     "1":
       "1":
-        name_a: Smoke Bomb
-        initiative_a: 12
-        name_b: Throwing Knives
-        initiative_b: 85
+        a:
+          name: Smoke Bomb
+          initiative: 12
+        b:
+          name: Throwing Knives
+          initiative: 85
       "2":
-        name_a: Thief's Knack
-        initiative_a: 23
-        name_b: Single Out
-        initiative_b: 11
-      "3":
-        name_a: Venom Shiv
-        initiative_a: 60
-        name_b: Backstab
-        initiative_b: 62
-      "4":
-        name_a: Quick Reflexes
-        initiative_a: 64
-        name_b: Special Mixture
-        initiative_b: 38
+        a:
+          name: Long Con
+          initiative: 2
+        b:
+          name: Serrated Arrows
+          initiative: 95
     "2":
       "1":
-        name_a: Long Con
-        initiative_a: 2
-        name_b: Serrated Arrows
-        initiative_b: 95
+        a:
+          name: Thief's Knack
+          initiative: 23
+        b:
+          name: Single Out
+          initiative: 11
       "2":
-        name_a: Spring the Trap
-        initiative_a: 13
-        name_b: Open Wound
-        initiative_b: 4
-      "3":
-        name_a: Watch it Burn
-        initiative_a: 98
-        name_b: Gruesome Advantage
-        initiative_b: 6
-      "4":
-        name_a: Duelist's Advance
-        initiative_a: 16
-        name_b: Pain's End
-        initiative_b: 33
+        a:
+          name: Spring the Trap
+          initiative: 13
+        b:
+          name: Open Wound
+          initiative: 4
+    "3":
+      "1":
+        a:
+          name: Venom Shiv
+          initiative: 60
+        b:
+          name: Backstab
+          initiative: 62
+      "2":
+        a:
+          name: Watch it Burn
+          initiative: 98
+        b:
+          name: Gruesome Advantage
+          initiative: 6
+    "4":
+      "1":
+        a:
+          name: Quick Reflexes
+          initiative: 64
+        b:
+          name: Special Mixture
+          initiative: 38
+      "2":
+        a:
+          name: Duelist's Advance
+          initiative: 16
+        b:
+          name: Pain's End
+          initiative: 33

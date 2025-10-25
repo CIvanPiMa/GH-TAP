@@ -1,6 +1,14 @@
 from enum import Enum
 
 
+class DifficultyLevels(Enum):
+    VERY_EASY = "very_easy"
+    EASY = "easy"
+    MEDIUM = "medium"
+    HARD = "hard"
+    VERY_HARD = "very_hard"
+
+
 class Conditions(Enum):
     INVISIBLE = "invisible"
     STRENGTHEN = "strengthen"

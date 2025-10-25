@@ -41,4 +41,3 @@ def health_check():
 main.include_router(routers.characters_router)
 main.include_router(routers.monsters_router)
 main.include_router(routers.scenarios_router)
-main.include_router(routers.turns_router)

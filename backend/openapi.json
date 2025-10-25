@@ -187,126 +187,37 @@
           }
         }
       }
-    },
-    "/turns/": {
-      "get": {
-        "tags": ["turns"],
-        "summary": "Get Turns",
-        "description": "Get all turns",
-        "operationId": "get_turns_turns__get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": { "$ref": "#/components/schemas/Turn" },
-                  "type": "array",
-                  "title": "Response Get Turns Turns  Get"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["turns"],
-        "summary": "Create Turn",
-        "description": "Create a new turn",
-        "operationId": "create_turn_turns__post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/Turn" }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/TurnResponse" }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": ["turns"],
-        "summary": "Clear Turns",
-        "description": "Clear all turns",
-        "operationId": "clear_turns_turns__delete",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
-          }
-        }
-      }
-    },
-    "/turns/{turn_id}": {
-      "delete": {
-        "tags": ["turns"],
-        "summary": "Delete Turn",
-        "description": "Delete a turn by ID",
-        "operationId": "delete_turn_turns__turn_id__delete",
-        "parameters": [
-          {
-            "name": "turn_id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer", "title": "Turn Id" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
       "Ability": {
         "properties": {
-          "name_a": { "type": "string", "title": "Name A" },
-          "initiative_a": { "type": "integer", "title": "Initiative A" },
-          "name_b": { "type": "string", "title": "Name B" },
-          "initiative_b": { "type": "integer", "title": "Initiative B" }
+          "a": { "$ref": "#/components/schemas/AbilityAction" },
+          "b": { "$ref": "#/components/schemas/AbilityAction" }
         },
         "type": "object",
-        "required": ["name_a", "initiative_a", "name_b", "initiative_b"],
+        "required": ["a", "b"],
         "title": "Ability"
       },
-      "AbilityID": {
+      "AbilityAction": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "initiative": { "type": "integer", "title": "Initiative" }
+        },
+        "type": "object",
+        "required": ["name", "initiative"],
+        "title": "AbilityAction"
+      },
+      "CardID": {
         "type": "string",
         "enum": ["1", "2", "3", "4"],
-        "title": "AbilityID"
+        "title": "CardID"
       },
-      "AbilityLevel": {
+      "CardLevel": {
         "type": "string",
         "enum": ["1", "2"],
-        "title": "AbilityLevel"
+        "title": "CardLevel"
       },
       "Character": {
         "properties": {
@@ -325,10 +236,10 @@
               "additionalProperties": {
                 "$ref": "#/components/schemas/Ability"
               },
-              "propertyNames": { "$ref": "#/components/schemas/AbilityID" },
+              "propertyNames": { "$ref": "#/components/schemas/CardLevel" },
               "type": "object"
             },
-            "propertyNames": { "$ref": "#/components/schemas/AbilityLevel" },
+            "propertyNames": { "$ref": "#/components/schemas/CardID" },
             "type": "object",
             "title": "Abilities"
           }
@@ -461,29 +372,6 @@
         "items": { "$ref": "#/components/schemas/Scenario" },
         "type": "array",
         "title": "Scenarios"
-      },
-      "Turn": {
-        "properties": {
-          "id": {
-            "anyOf": [{ "type": "integer" }, { "type": "null" }],
-            "title": "Id"
-          },
-          "player": { "type": "string", "title": "Player" },
-          "action": { "type": "string", "title": "Action" },
-          "initiative": { "type": "integer", "title": "Initiative" }
-        },
-        "type": "object",
-        "required": ["player", "action", "initiative"],
-        "title": "Turn"
-      },
-      "TurnResponse": {
-        "properties": {
-          "message": { "type": "string", "title": "Message" },
-          "turn": { "$ref": "#/components/schemas/Turn" }
-        },
-        "type": "object",
-        "required": ["message", "turn"],
-        "title": "TurnResponse"
       },
       "ValidationError": {
         "properties": {
