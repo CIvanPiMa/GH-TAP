@@ -48,11 +48,11 @@ export interface CharacterAbilityCard {
 }
 
 export interface TurnState {
-  step: 1 | 2 | 3 | 4;
+  step: 1 | 2 | 3;
   selectedCards: CardId[];
   selectedInitiative?: number;
   isLongRest: boolean;
-  monsterInitiativeSymbol?: MonsterInitiativeSymbol;
+  monsterInitiativeSymbols: { [monsterId: string]: MonsterInitiativeSymbol };
   actorOrder: GameActor[];
 }
 

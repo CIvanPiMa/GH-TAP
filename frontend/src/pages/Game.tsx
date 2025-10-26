@@ -74,7 +74,17 @@ const Game: React.FC = () => {
 
       if (isExistingState && isSameScenario && hasMonsters && isSameGameId) {
         // Restore existing game state only if it's the same game instance (same gameId)
-        setGameState(existingState);
+        // Migrate old schema to new schema if needed
+        const migratedState = {
+          ...existingState,
+          turnState: {
+            ...existingState.turnState,
+            // Ensure monsterInitiativeSymbols exists (migration from old schema)
+            monsterInitiativeSymbols:
+              existingState.turnState.monsterInitiativeSymbols || {},
+          },
+        };
+        setGameState(migratedState);
       } else {
         // Initialize new game state
         const healthLevel =
@@ -113,6 +123,7 @@ const Game: React.FC = () => {
           selectedCards: [],
           isLongRest: false,
           actorOrder: [],
+          monsterInitiativeSymbols: {},
         };
 
         const newGameState: ExtendedGameState = {
@@ -181,32 +192,24 @@ const Game: React.FC = () => {
     if (!gameState) return;
 
     if (gameState.turnState.isLongRest) {
-      // Deselect Long Rest - restore original cards state
+      // Deselect Long Rest
       updateTurnState({
         selectedCards: [],
         isLongRest: false,
         selectedInitiative: undefined,
       });
     } else {
-      // Select Long Rest - reset all character cards
-      const resetCards = gameState.characterCards.map((card) => ({
-        ...card,
-        sideAUsed: false,
-        sideBUsed: false,
-        discarded: false,
-      }));
-
-      updateGameState({ characterCards: resetCards });
+      // Select Long Rest - cards will be restored AFTER the turn is finished
       updateTurnState({
         selectedCards: [],
         isLongRest: true,
         selectedInitiative: 99,
       });
     }
-  }, [gameState, updateGameState, updateTurnState]);
+  }, [gameState, updateTurnState]);
 
   const handleInitiativeSelect = useCallback(
-    (initiative: number) => {
+    (initiative: number | undefined) => {
       updateTurnState({ selectedInitiative: initiative });
     },
     [updateTurnState],
@@ -215,22 +218,7 @@ const Game: React.FC = () => {
   const handleCharacterConfirm = useCallback(() => {
     if (!gameState) return;
 
-    // Mark selected cards as used (side A for now)
-    if (!gameState.turnState.isLongRest) {
-      const updatedCards = gameState.characterCards.map((card) => {
-        if (gameState.turnState.selectedCards.includes(card.cardId)) {
-          if (!card.sideAUsed) {
-            return { ...card, sideAUsed: true };
-          } else if (!card.sideBUsed) {
-            return { ...card, sideBUsed: true, discarded: true };
-          }
-        }
-        return card;
-      });
-      updateGameState({ characterCards: updatedCards });
-    }
-
-    // Set character initiative
+    // Set character initiative (cards will be marked as used after the turn finishes)
     const updatedCharacter = {
       ...gameState.character,
       initiative: gameState.turnState.selectedInitiative,
@@ -242,17 +230,28 @@ const Game: React.FC = () => {
 
   // Monster initiative handlers
   const handleMonsterSymbolSelect = useCallback(
-    (symbol: MonsterInitiativeSymbol) => {
+    (monsterId: string, symbol: MonsterInitiativeSymbol) => {
       if (!gameState) return;
 
-      // Update all monster initiatives based on selected symbol
-      const updatedMonsters = gameState.monsters.map((monster) => ({
-        ...monster,
-        initiative: (monster.actor as any).initiatives[symbol] || 0,
-      }));
+      // Update specific monster initiative based on selected symbol
+      const updatedMonsters = gameState.monsters.map((monster) => {
+        if (monster.actor.id === monsterId) {
+          return {
+            ...monster,
+            initiative: (monster.actor as any).initiatives[symbol] || 0,
+          };
+        }
+        return monster;
+      });
+
+      // Update the monster initiative symbols tracking
+      const updatedSymbols = {
+        ...gameState.turnState.monsterInitiativeSymbols,
+        [monsterId]: symbol,
+      };
 
       updateGameState({ monsters: updatedMonsters });
-      updateTurnState({ monsterInitiativeSymbol: symbol });
+      updateTurnState({ monsterInitiativeSymbols: updatedSymbols });
     },
     [gameState, updateGameState, updateTurnState],
   );
@@ -260,7 +259,7 @@ const Game: React.FC = () => {
   const handleMonsterConfirm = useCallback(() => {
     if (!gameState) return;
 
-    // Sort actors by initiative and go directly to step 4 (execution)
+    // Sort actors by initiative and go directly to step 3 (execution)
     const allActors = [gameState.character, ...gameState.monsters];
     const sortedActors = [...allActors].sort((a, b) => {
       if (a.initiative === undefined && b.initiative === undefined) return 0;
@@ -270,7 +269,7 @@ const Game: React.FC = () => {
     });
 
     updateTurnState({
-      step: 4 as const,
+      step: 3 as const,
       actorOrder: sortedActors,
     });
   }, [gameState, updateTurnState]);
@@ -279,6 +278,9 @@ const Game: React.FC = () => {
   const handleFinishTurn = useCallback(() => {
     if (!gameState) return;
 
+    // Check if this was a long rest turn
+    const wasLongRest = gameState.turnState.isLongRest;
+
     // Reset all actor initiatives
     const resetCharacter = { ...gameState.character, initiative: undefined };
     const resetMonsters = gameState.monsters.map((monster) => ({
@@ -286,17 +288,43 @@ const Game: React.FC = () => {
       initiative: undefined,
     }));
 
+    // Handle character cards based on turn type
+    let updatedCharacterCards = gameState.characterCards;
+    if (wasLongRest) {
+      // If it was a long rest turn, restore all character cards
+      updatedCharacterCards = gameState.characterCards.map((card) => ({
+        ...card,
+        sideAUsed: false,
+        sideBUsed: false,
+        discarded: false,
+      }));
+    } else {
+      // If it was a regular turn, mark selected cards as used
+      updatedCharacterCards = gameState.characterCards.map((card) => {
+        if (gameState.turnState.selectedCards.includes(card.cardId)) {
+          if (!card.sideAUsed) {
+            return { ...card, sideAUsed: true };
+          } else if (!card.sideBUsed) {
+            return { ...card, sideBUsed: true, discarded: true };
+          }
+        }
+        return card;
+      });
+    }
+
     // Reset turn state to step 1
     const resetTurnState: TurnState = {
       step: 1,
       selectedCards: [],
       isLongRest: false,
       actorOrder: [],
+      monsterInitiativeSymbols: {},
     };
 
     updateGameState({
       character: resetCharacter,
       monsters: resetMonsters,
+      characterCards: updatedCharacterCards,
       turnState: resetTurnState,
       currentTurn: gameState.currentTurn + 1,
     });
@@ -306,7 +334,7 @@ const Game: React.FC = () => {
   const handlePrevStep = useCallback(() => {
     if (!gameState) return;
 
-    if (gameState.turnState.step === 4) {
+    if (gameState.turnState.step === 3) {
       updateTurnState({ step: 2 as const });
     } else if (gameState.turnState.step === 2) {
       updateTurnState({ step: 1 as const });
@@ -317,21 +345,36 @@ const Game: React.FC = () => {
     if (!gameState) return;
 
     if (gameState.turnState.step === 1) {
-      updateTurnState({ step: 2 as const });
+      // Handle character turn setup when moving to step 2
+      handleCharacterConfirm();
     } else if (gameState.turnState.step === 2) {
-      updateTurnState({ step: 4 as const });
+      // Handle monster initiative confirmation when moving to step 3
+      handleMonsterConfirm();
     }
-  }, [gameState, updateTurnState]);
+  }, [gameState, handleCharacterConfirm, handleMonsterConfirm]);
 
   // Determine navigation state
   const canGoNext = gameState
     ? (() => {
         switch (gameState.turnState.step) {
           case 1:
-            return gameState.turnState.selectedInitiative !== undefined;
+            // For step 1, player must either select long rest OR select exactly 2 cards and an initiative
+            const hasValidSelection =
+              gameState.turnState.isLongRest ||
+              gameState.turnState.selectedCards.length === 2;
+            return (
+              hasValidSelection &&
+              gameState.turnState.selectedInitiative !== undefined
+            );
           case 2:
-            return gameState.turnState.monsterInitiativeSymbol !== undefined;
-          case 4:
+            // For step 2, all monsters must have selected initiatives
+            return gameState.monsters.every(
+              (monster) =>
+                gameState.turnState.monsterInitiativeSymbols?.[
+                  monster.actor.id
+                ] !== undefined,
+            );
+          case 3:
             return false; // No next from execution step
           default:
             return false;
@@ -412,15 +455,6 @@ const Game: React.FC = () => {
   // Create the turn content to be rendered in the Turns tab
   const turnContent = (
     <div className="space-y-6">
-      <TurnNavigation
-        currentStep={gameState.turnState.step}
-        canGoNext={canGoNext}
-        canGoPrev={canGoPrev}
-        onNext={canGoNext ? handleNextStep : undefined}
-        onPrev={canGoPrev ? handlePrevStep : undefined}
-        currentTurn={gameState.currentTurn}
-      />
-
       {/* Turn Step Content */}
       <div className="min-h-[400px]">
         {gameState.turnState.step === 1 && character && (
@@ -428,25 +462,23 @@ const Game: React.FC = () => {
             character={character}
             characterCards={gameState.characterCards}
             selectedCards={gameState.turnState.selectedCards}
+            selectedInitiative={gameState.turnState.selectedInitiative}
             isLongRest={gameState.turnState.isLongRest}
             onCardSelect={handleCardSelect}
             onLongRest={handleLongRest}
             onInitiativeSelect={handleInitiativeSelect}
-            onConfirm={handleCharacterConfirm}
           />
         )}
 
         {gameState.turnState.step === 2 && (
           <MonsterInitiativeSelection
             monsters={gameState.monsters.map((m) => m.actor as Monster)}
-            selectedSymbol={gameState.turnState.monsterInitiativeSymbol}
-            onSymbolSelect={handleMonsterSymbolSelect}
-            onRandomSelect={() => {}} // Random selection is handled inside the component
-            onConfirm={handleMonsterConfirm}
+            selectedSymbols={gameState.turnState.monsterInitiativeSymbols}
+            onMonsterSymbolSelect={handleMonsterSymbolSelect}
           />
         )}
 
-        {gameState.turnState.step === 4 && (
+        {gameState.turnState.step === 3 && (
           <TurnExecution
             actors={
               gameState.turnState.actorOrder.length > 0
@@ -458,6 +490,13 @@ const Game: React.FC = () => {
           />
         )}
       </div>
+      <TurnNavigation
+        canGoNext={canGoNext}
+        canGoPrev={canGoPrev}
+        onNext={canGoNext ? handleNextStep : undefined}
+        onPrev={canGoPrev ? handlePrevStep : undefined}
+        currentTurn={gameState.currentTurn}
+      />
     </div>
   );
 

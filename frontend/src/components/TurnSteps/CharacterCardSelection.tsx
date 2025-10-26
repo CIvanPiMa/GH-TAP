@@ -6,22 +6,22 @@ interface CharacterCardSelectionProps {
   character: Character;
   characterCards: CharacterAbilityCard[];
   selectedCards: CardId[];
+  selectedInitiative?: number;
   isLongRest: boolean;
   onCardSelect: (cardId: CardId) => void;
   onLongRest: () => void;
-  onInitiativeSelect: (initiative: number) => void;
-  onConfirm: () => void;
+  onInitiativeSelect: (initiative: number | undefined) => void;
 }
 
 const CharacterCardSelection: React.FC<CharacterCardSelectionProps> = ({
   character,
   characterCards,
   selectedCards,
+  selectedInitiative: parentSelectedInitiative,
   isLongRest,
   onCardSelect,
   onLongRest,
   onInitiativeSelect,
-  onConfirm,
 }) => {
   const [selectedInitiative, setSelectedInitiative] = useState<
     number | undefined
@@ -71,11 +71,12 @@ const CharacterCardSelection: React.FC<CharacterCardSelectionProps> = ({
     onInitiativeSelect(initiative);
   };
 
-  const handleConfirmClick = () => {
-    if (selectedInitiative !== undefined) {
-      onConfirm();
+  // Sync with parent's selected initiative
+  useEffect(() => {
+    if (parentSelectedInitiative !== undefined) {
+      setSelectedInitiative(parentSelectedInitiative);
     }
-  };
+  }, [parentSelectedInitiative]);
 
   // Check if we should show initiative selection
   useEffect(() => {
@@ -83,9 +84,23 @@ const CharacterCardSelection: React.FC<CharacterCardSelectionProps> = ({
       setShowInitiativeSelection(true);
     } else {
       setShowInitiativeSelection(false);
-      setSelectedInitiative(undefined);
+      // Only clear initiative if there are no selected cards and it's not long rest
+      // This prevents clearing when navigating back to step 1
+      if (
+        selectedCards.length === 0 &&
+        !isLongRest &&
+        !parentSelectedInitiative
+      ) {
+        setSelectedInitiative(undefined);
+        onInitiativeSelect(undefined);
+      }
     }
-  }, [isLongRest, selectedCards.length]);
+  }, [
+    isLongRest,
+    selectedCards.length,
+    onInitiativeSelect,
+    parentSelectedInitiative,
+  ]);
 
   const availableInitiatives = getAvailableInitiatives();
 
@@ -93,17 +108,10 @@ const CharacterCardSelection: React.FC<CharacterCardSelectionProps> = ({
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2">Select Character Cards</h2>
-        <p className="text-white/70">
-          {isLongRest
-            ? "Long Rest selected - all cards will be refreshed"
-            : `Select ${2 - selectedCards.length} more card${
-                selectedCards.length === 1 ? "" : "s"
-              }`}
-        </p>
       </div>
 
       {/* Character Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {Object.entries(character.abilities).map(([cardId, cardAbilities]) => {
           const card = characterCards.find(
             (c) => c.cardId === (cardId as CardId),
@@ -124,7 +132,7 @@ const CharacterCardSelection: React.FC<CharacterCardSelectionProps> = ({
           return (
             <div
               key={cardId}
-              className={`card transition-all border-2 ${
+              className={`card transition-all border-2 p-2 ${
                 isSelected
                   ? "text-gloom-brown cursor-pointer"
                   : isCardFullyUsed
@@ -135,27 +143,27 @@ const CharacterCardSelection: React.FC<CharacterCardSelectionProps> = ({
               }`}
               onClick={() => !isDisabled && handleCardClick(cardId as CardId)}
             >
-              <div className="text-center mb-3">
-                <h3 className="text-lg font-semibold">Card {cardId}</h3>
-                <span className="text-sm text-white/60">
+              <div className="text-center mb-2">
+                <h3 className="text-sm font-semibold">Card {cardId}</h3>
+                <span className="text-xs text-white/60">
                   Level {card.level}
                 </span>
               </div>
 
               {cardAbilities[card.level] && (
-                <div className="space-y-2">
+                <div className="space-y-1">
                   {/* Side A */}
                   <div
-                    className={`p-3 rounded ${
+                    className={`p-2 rounded text-center ${
                       card.sideAUsed
                         ? "bg-red-500/20 border border-red-500/40"
                         : "bg-blue-500/20 border border-blue-500/40"
                     }`}
                   >
-                    <div className="text-sm text-white/70 mb-1">
+                    <div className="text-xs text-white/70 mb-1">
                       Side A {card.sideAUsed && "(Used)"}
                     </div>
-                    <div className="font-medium text-sm">
+                    <div className="font-medium text-xs">
                       {cardAbilities[card.level]!.a.name}
                     </div>
                     <div className="text-xs text-white/60">
@@ -165,16 +173,16 @@ const CharacterCardSelection: React.FC<CharacterCardSelectionProps> = ({
 
                   {/* Side B */}
                   <div
-                    className={`p-3 rounded ${
+                    className={`p-2 rounded text-center ${
                       card.sideBUsed
                         ? "bg-red-500/20 border border-red-500/40"
                         : "bg-blue-500/20 border border-blue-500/40"
                     }`}
                   >
-                    <div className="text-sm text-white/70 mb-1">
+                    <div className="text-xs text-white/70 mb-1">
                       Side B {card.sideBUsed && "(Used)"}
                     </div>
-                    <div className="font-medium text-sm">
+                    <div className="font-medium text-xs">
                       {cardAbilities[card.level]!.b.name}
                     </div>
                     <div className="text-xs text-white/60">
@@ -252,17 +260,6 @@ const CharacterCardSelection: React.FC<CharacterCardSelectionProps> = ({
               <p className="text-purple-300">
                 Initiative automatically set to 99
               </p>
-              <p className="text-white/70 text-sm">
-                All ability cards will be refreshed
-              </p>
-            </div>
-          )}
-
-          {selectedInitiative !== undefined && (
-            <div className="text-center">
-              <button onClick={handleConfirmClick} className="btn-primary">
-                Confirm Turn Setup
-              </button>
             </div>
           )}
         </div>
