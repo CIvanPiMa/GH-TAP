@@ -30,6 +30,7 @@ coverage
 
 # Bower dependency directory (https://bower.io/)
 bower_components
+chrome-debug-user-data
 
 # node-waf configuration
 .lock-wscript
@@ -139,6 +140,8 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 # Python
+.mypy_cache/
+.ruff_cache/
 __pycache__/
 *.py[cod]
 *$py.class

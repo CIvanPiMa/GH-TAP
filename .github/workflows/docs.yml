@@ -1,0 +1,53 @@
+name: Documentation website
+run-name: Generate Library Documentation  📜
+
+# build the documentation only for tags.
+on:
+  push:
+    branches:
+      - main
+
+# security: restrict permissions for CI jobs.
+permissions:
+  contents: read
+
+jobs:
+  # Build the documentation and upload the static HTML files as an artifact.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Generate documentation
+        run: pdoc src/gh_tap_back --mermaid --docformat numpy -o docs/
+
+      - name: Upload documentation
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+          retention-days: 1
+
+  # Deploy the artifact to GitHub pages.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy documentation
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ github.token }}

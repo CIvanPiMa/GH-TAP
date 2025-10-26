@@ -1,0 +1,191 @@
+@import "tailwindcss";
+@import "./variables.css";
+
+@font-face {
+  font-family: "PirataOne";
+  src: url("/gh_assets/font/pirataone-gloomhaven.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  font-family: var(--font-primary);
+  font-size: 1.2rem; /* Increased from default 16px */
+}
+
+/* Custom utility classes for our theme */
+.font-pirata {
+  font-family: var(--font-pirata);
+}
+
+.text-gloom-white {
+  color: var(--color-gloom-white);
+}
+
+.text-gloom-brown {
+  color: var(--color-gloom-brown);
+}
+
+.text-gloom-brown-light {
+  color: var(--color-gloom-brown-light);
+}
+
+.bg-gloom-brown {
+  background-color: var(--color-gloom-brown);
+}
+
+.bg-gloom-brown-light {
+  background-color: var(--color-gloom-brown-light);
+}
+
+.bg-gloom-brown-dark {
+  background-color: var(--color-gloom-brown-dark);
+}
+
+.border-gloom-brown {
+  border-color: var(--color-gloom-brown);
+}
+
+.border-gloom-brown-light {
+  border-color: var(--color-gloom-brown-light);
+}
+
+.border-gloom-brown-dark {
+  border-color: var(--color-gloom-brown-dark);
+}
+
+.bg-gloom-brown-alpha-10 {
+  background-color: var(--color-gloom-brown-alpha-10);
+}
+
+.bg-gloom-brown-alpha-20 {
+  background-color: var(--color-gloom-brown-alpha-20);
+}
+
+.hover\:bg-gloom-brown-light:hover {
+  background-color: var(--color-gloom-brown-light);
+}
+
+.hover\:text-gloom-brown-light:hover {
+  color: var(--color-gloom-brown-light);
+}
+
+/* Additional background classes */
+.bg-gloom-dark {
+  background-color: var(--color-black-alpha-80);
+}
+
+/* Base styles */
+body {
+  background-color: var(--color-black-alpha-80);
+  color: var(--color-white-alpha-90);
+  min-height: 100vh;
+  position: relative;
+  font-size: 1rem; /* This will now be based on the 18px root */
+  line-height: 1.6; /* Improved line height for better readability */
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: -10;
+  background-image:
+    linear-gradient(var(--color-black-alpha-70) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-black-alpha-70) 1px, transparent 1px),
+    var(--bg-battle-goal-back);
+  background-repeat: repeat;
+  background-size: 200px 280px;
+  background-attachment: fixed;
+}
+
+a {
+  color: var(--color-gloom-brown);
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+p {
+  color: var(--color-white-alpha-80);
+}
+
+a:hover {
+  color: var(--color-gloom-brown-hover);
+}
+
+/* Component styles */
+.btn-primary {
+  background-color: var(--color-gloom-brown);
+  color: var(--color-gloom-white);
+  padding: 0.875rem 1.75rem; /* Increased padding */
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem; /* Slightly larger font */
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-gloom-brown-hover);
+  transform: translateY(-2px);
+  color: var(--color-gloom-white);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-gloom-brown);
+  border: 2px solid var(--color-gloom-brown);
+  padding: 0.875rem 1.75rem; /* Increased padding */
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem; /* Match primary button font size */
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-gloom-brown);
+  color: var(--color-gloom-white);
+  transform: translateY(-2px);
+}
+
+.card {
+  background-color: var(--color-white-alpha-05);
+  border: 1px solid var(--color-white-alpha-10);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(4px);
+}
+
+.nav-link {
+  color: var(--color-white-alpha-80);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: var(--color-nav-hover);
+  background-color: var(--color-gloom-brown-alpha-10);
+}
+
+.nav-link.active {
+  color: var(--color-nav-active);
+  background-color: var(--color-gloom-brown-alpha-20);
+}

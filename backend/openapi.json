@@ -1,0 +1,507 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GH-TAP Backend",
+    "description": "Backend API for GH-TAP application",
+    "version": "0.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": " ",
+        "description": "Root endpoint",
+        "operationId": "___get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Health check endpoint",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/characters/": {
+      "get": {
+        "tags": ["characters"],
+        "summary": "Get Characters",
+        "description": "Get all available characters",
+        "operationId": "get_characters_characters__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Characters"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/characters/{character_id}": {
+      "get": {
+        "tags": ["characters"],
+        "summary": "Get Character",
+        "description": "Get a specific character by ID",
+        "operationId": "get_character_characters__character_id__get",
+        "parameters": [
+          {
+            "name": "character_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Character Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Character"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/monsters/": {
+      "get": {
+        "tags": ["monsters"],
+        "summary": "Get Monsters",
+        "description": "Get all available monsters",
+        "operationId": "get_monsters_monsters__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monsters"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/monsters/{monster_id}": {
+      "get": {
+        "tags": ["monsters"],
+        "summary": "Get Monster",
+        "description": "Get a specific monster by ID",
+        "operationId": "get_monster_monsters__monster_id__get",
+        "parameters": [
+          {
+            "name": "monster_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Monster Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monster"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenarios/": {
+      "get": {
+        "tags": ["scenarios"],
+        "summary": "Get Scenarios",
+        "description": "Get all available scenarios",
+        "operationId": "get_scenarios_scenarios__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Scenarios"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenarios/{scenario_id}": {
+      "get": {
+        "tags": ["scenarios"],
+        "summary": "Get Scenario",
+        "description": "Get a specific scenario by ID",
+        "operationId": "get_scenario_scenarios__scenario_id__get",
+        "parameters": [
+          {
+            "name": "scenario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scenario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Scenario"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Ability": {
+        "properties": {
+          "a": {
+            "$ref": "#/components/schemas/AbilityAction"
+          },
+          "b": {
+            "$ref": "#/components/schemas/AbilityAction"
+          }
+        },
+        "type": "object",
+        "required": ["a", "b"],
+        "title": "Ability"
+      },
+      "AbilityAction": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "initiative": {
+            "type": "integer",
+            "title": "Initiative"
+          }
+        },
+        "type": "object",
+        "required": ["name", "initiative"],
+        "title": "AbilityAction"
+      },
+      "CardID": {
+        "type": "string",
+        "enum": ["1", "2", "3", "4"],
+        "title": "CardID"
+      },
+      "CardLevel": {
+        "type": "string",
+        "enum": ["1", "2"],
+        "title": "CardLevel"
+      },
+      "Character": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "health_lvls": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/CharacterHealthLevel"
+            },
+            "type": "object",
+            "title": "Health Lvls"
+          },
+          "abilities": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "$ref": "#/components/schemas/Ability"
+              },
+              "propertyNames": {
+                "$ref": "#/components/schemas/CardLevel"
+              },
+              "type": "object"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/CardID"
+            },
+            "type": "object",
+            "title": "Abilities"
+          }
+        },
+        "type": "object",
+        "required": ["id", "name", "health_lvls", "abilities"],
+        "title": "Character"
+      },
+      "CharacterHealthLevel": {
+        "type": "string",
+        "enum": ["1", "2", "3", "4", "5"],
+        "title": "CharacterHealthLevel"
+      },
+      "Characters": {
+        "items": {
+          "$ref": "#/components/schemas/Character"
+        },
+        "type": "array",
+        "title": "Characters"
+      },
+      "Conditions": {
+        "type": "string",
+        "enum": [
+          "invisible",
+          "strengthen",
+          "wound",
+          "poison",
+          "immobilize",
+          "disarm",
+          "muddle",
+          "pierce"
+        ],
+        "title": "Conditions"
+      },
+      "EffectTypes": {
+        "type": "string",
+        "enum": ["heal", "shield", "retaliate"],
+        "title": "EffectTypes"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Monster": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "health": {
+            "type": "integer",
+            "title": "Health"
+          },
+          "initiatives": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/MonsterInitiativeSymbol"
+            },
+            "type": "object",
+            "title": "Initiatives"
+          },
+          "persistent_bonuses": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Persistent Bonuses"
+          },
+          "attack_effects": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/Conditions"
+            },
+            "type": "object",
+            "title": "Attack Effects"
+          },
+          "immunities": {
+            "items": {
+              "$ref": "#/components/schemas/Conditions"
+            },
+            "type": "array",
+            "title": "Immunities"
+          }
+        },
+        "type": "object",
+        "required": ["id", "name", "health", "initiatives"],
+        "title": "Monster"
+      },
+      "MonsterInitiativeSymbol": {
+        "type": "string",
+        "enum": ["-", "o", "+"],
+        "title": "MonsterInitiativeSymbol"
+      },
+      "Monsters": {
+        "items": {
+          "$ref": "#/components/schemas/Monster"
+        },
+        "type": "array",
+        "title": "Monsters"
+      },
+      "MoveTypes": {
+        "type": "string",
+        "enum": ["move", "jump", "flying"],
+        "title": "MoveTypes"
+      },
+      "Scenario": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "level": {
+            "type": "integer",
+            "title": "Level"
+          },
+          "monsters_id": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Monsters Id"
+          },
+          "special_rules": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Special Rules"
+          },
+          "goals": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Goals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "level",
+          "monsters_id",
+          "special_rules",
+          "goals"
+        ],
+        "title": "Scenario"
+      },
+      "Scenarios": {
+        "items": {
+          "$ref": "#/components/schemas/Scenario"
+        },
+        "type": "array",
+        "title": "Scenarios"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

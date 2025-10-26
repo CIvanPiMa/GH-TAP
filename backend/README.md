@@ -1,45 +1,57 @@
 # Backend - FastAPI
 
-This is the backend service for the GloomHeaven Turn Assistant Platform built with FastAPI.
+This is the backend service for the GH:TAP built with FastAPI.
 
 ## Setup
 
 1. Create a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate
+    ```
 
 2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+
+    ```bash
+    uv pip install -e ".[dev]"
+    ```
 
 ## Running the Server
 
 Development mode with auto-reload:
+
 ```bash
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+uvicorn src.gh_tap_back.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Or run directly:
+
 ```bash
-python main.py
+python src/gh_tap_back/main.py
 ```
 
-The API will be available at: http://localhost:8000
+The API will be available at: <http://localhost:8000>
 
 ## API Documentation
 
 Once the server is running, you can access:
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
 
-## API Endpoints
+- Swagger UI: <http://localhost:8000/docs>
+- ReDoc: <http://localhost:8000/redoc>
 
-- `GET /` - Root endpoint
-- `GET /api/health` - Health check
-- `GET /api/turns` - Get all turns (sorted by initiative)
-- `POST /api/turns` - Create a new turn
-- `DELETE /api/turns/{turn_id}` - Delete a specific turn
-- `DELETE /api/turns` - Clear all turns
+### Generate the OpenAPI Spec
+
+To generate the OpenAPI specification and save it to `openapi.json`, run:
+
+```bash
+python src/gh_tap_back/openapi_gen.py
+```
+
+## Testing
+
+To run the test suite, use:
+
+```bash
+behave
+```

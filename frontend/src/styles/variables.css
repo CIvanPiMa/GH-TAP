@@ -1,0 +1,38 @@
+/**
+ * CSS Custom Properties (Variables) for GH-TAP
+ */
+
+:root {
+  /* Colors from THEME.COLORS in config.ts */
+  --color-gloom-brown: rgb(211, 88, 0);
+  --color-gloom-brown-light: rgb(255, 96, 22);
+  --color-gloom-brown-dark: rgb(139, 69, 19);
+  --color-gloom-white: rgb(255, 255, 255);
+
+  /* Additional theme colors */
+  --color-gloom-brown-hover: rgb(160, 82, 45);
+  --color-gloom-brown-alpha-10: rgba(139, 69, 19, 0.1);
+  --color-gloom-brown-alpha-20: rgba(139, 69, 19, 0.2);
+
+  /* White variants */
+  --color-white-alpha-05: rgba(255, 255, 255, 0.05);
+  --color-white-alpha-10: rgba(255, 255, 255, 0.1);
+  --color-white-alpha-80: rgba(255, 255, 255, 0.8);
+  --color-white-alpha-90: rgba(255, 255, 255, 0.9);
+
+  /* Black variants */
+  --color-black-alpha-80: rgba(0, 0, 0, 0.8);
+  --color-black-alpha-70: rgba(0, 0, 0, 0.7);
+
+  /* Additional UI colors */
+  --color-secondary-bg: rgb(209, 209, 209);
+  --color-nav-hover: rgb(243, 146, 81);
+  --color-nav-active: rgb(255, 186, 141);
+
+  /* Fonts from THEME.FONTS in config.ts */
+  --font-primary: "PirataOne", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-pirata: "PirataOne", serif;
+
+  /* Asset paths from ASSET_PATHS in config.ts */
+  --bg-battle-goal-back: url("/gh_assets/battle_goals/battle_goal_back.jpg");
+}
