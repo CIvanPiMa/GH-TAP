@@ -58,7 +58,10 @@ pre-commit install
 
 See individual README files in `backend/` and `frontend/` directories for more detailed development instructions.
 
+## Deployment
+
+Check the deployment [guide](./docker/README.md) for detailed instructions.
+
 ## Next Steps
 
-- Set deployment
 - Add user authentication

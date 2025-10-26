@@ -1,0 +1,18 @@
+# Docker Compose for single container deployment (all-in-one)
+
+services:
+  gh-tap-app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.combined
+    ports:
+      - "80:80"
+    environment:
+      - PYTHONPATH=/app/backend/src
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

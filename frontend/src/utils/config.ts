@@ -6,9 +6,18 @@
  */
 
 // API Configuration
+const getBaseUrl = () => {
+  const envBaseUrl = import.meta.env.VITE_GH_TAP_API_URL_BASE;
+  if (envBaseUrl === "RELATIVE") {
+    // Use current origin for combined deployment
+    return window.location.origin;
+  }
+  return envBaseUrl || "http://localhost:8000";
+};
+
 export const API_CONFIG = {
   VERSION: import.meta.env.VITE_GH_TAP_API_VERSION || "v1",
-  BASE_URL: import.meta.env.VITE_GH_TAP_API_URL_BASE || "http://localhost:8000",
+  BASE_URL: getBaseUrl(),
 } as const;
 
 // Utility function to get full API URL

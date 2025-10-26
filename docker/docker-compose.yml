@@ -1,0 +1,31 @@
+# Docker Compose for separate backend and frontend deployment
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app/src
+    restart: unless-stopped
+    networks:
+      - gh-tap-network
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - gh-tap-network
+
+networks:
+  gh-tap-network:
+    driver: bridge

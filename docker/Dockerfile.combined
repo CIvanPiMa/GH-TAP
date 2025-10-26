@@ -1,0 +1,67 @@
+# Combined Dockerfile - Single container with both frontend and backend
+FROM node:20-alpine AS frontend-builder
+
+# Build frontend
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend/ ./
+# Set environment variable for combined deployment (use relative paths)
+ENV VITE_GH_TAP_API_URL_BASE="RELATIVE"
+RUN npm run build
+
+# Backend stage
+FROM python:3.11-slim AS backend-builder
+
+WORKDIR /app/backend
+COPY backend/pyproject.toml ./
+COPY backend/README.md ./
+COPY backend/src/ ./src/
+
+# Install dependencies
+RUN pip install --no-cache-dir -e .
+
+# Final stage with nginx and supervisord
+FROM nginx:alpine
+
+# Install required packages
+RUN apk add --no-cache python3 py3-pip supervisor curl
+
+# Set working directory
+WORKDIR /app
+
+# Copy backend from builder
+COPY --from=backend-builder /app/backend /app/backend
+
+# Create and use Python virtual environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install Python dependencies in the virtual environment
+RUN cd /app/backend && pip install --no-cache-dir -e .
+
+# Copy frontend build from builder
+COPY --from=frontend-builder /app/frontend/dist /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Create supervisor configuration
+RUN mkdir -p /etc/supervisor/conf.d
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Update nginx config for combined deployment
+RUN sed -i 's/http:\/\/backend:8000/http:\/\/127.0.0.1:8000/g' /etc/nginx/conf.d/default.conf
+
+# Create log directories
+RUN mkdir -p /var/log/supervisor /var/log/nginx
+
+# Expose port
+EXPOSE 80
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost/ && curl -f http://localhost:8000/health || exit 1
+
+# Start supervisor
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
