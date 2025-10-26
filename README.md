@@ -60,10 +60,5 @@ See individual README files in `backend/` and `frontend/` directories for more d
 
 ## Next Steps
 
-- Set the `scenario` page
-  - show character, items, ability cards, monsters
-  - set the `-`, `o` and `+` dice buttons
-  - add long/rest functionality
-  - turn actions order
 - Set deployment
 - Add user authentication
