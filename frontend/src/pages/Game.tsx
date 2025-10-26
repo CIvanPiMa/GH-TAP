@@ -74,12 +74,11 @@ const Game: React.FC = () => {
 
       if (isExistingState && isSameScenario && hasMonsters && isSameGameId) {
         // Restore existing game state only if it's the same game instance (same gameId)
-        // Migrate old schema to new schema if needed
         const migratedState = {
           ...existingState,
           turnState: {
             ...existingState.turnState,
-            // Ensure monsterInitiativeSymbols exists (migration from old schema)
+            // Ensure monsterInitiativeSymbols exists
             monsterInitiativeSymbols:
               existingState.turnState.monsterInitiativeSymbols || {},
           },

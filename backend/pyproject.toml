@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gh_tap_back"
 dynamic = ["version"]
-readme = { file = "README.txt", content-type = "text/markdown" }
+readme = { file = "README.md", content-type = "text/markdown" }
 authors = [{ name = "Ivan Pina", email = "cs.ip.mt@gmail.com" }]
 maintainers = [{ name = "Ivan Pina", email = "cs.ip.mt@gmail.com" }]
 keywords = []
@@ -39,7 +39,7 @@ Changelog = "https://github.com/CIvanPiMa/gh_tap_back/blob/main/CHANGELOG.md"
 
 #https://setuptools.pypa.io/en/latest/userguide/datafiles.html -*----*----*----*----*----*----*----*----*----*----*----*
 [tool.setuptools.package-data]
-"gh_tap_back.data" = ["*.yml"]
+"gh_tap_back.data" = ["*.yaml"]
 
 # https://python-semantic-release.readthedocs.io/en/latest/configuration.html -*----*----*----*----*----*----*----*----*
 [tool.semantic_release]
