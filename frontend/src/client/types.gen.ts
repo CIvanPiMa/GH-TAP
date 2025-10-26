@@ -115,6 +115,10 @@ export type Monster = {
    */
   name: string;
   /**
+   * Health
+   */
+  health: number;
+  /**
    * Initiatives
    */
   initiatives: {

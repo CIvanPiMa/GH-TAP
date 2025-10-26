@@ -95,4 +95,5 @@ export function getLocalStorageKeys(): string[] {
 export const STORAGE_KEYS = {
   GAMES: "gh-tap-games",
   CURRENT_GAME: "gh-tap-current-game",
+  GAME_STATE: "gh-tap-game-state",
 } as const;

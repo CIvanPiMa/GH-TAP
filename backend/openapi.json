@@ -14,7 +14,11 @@
         "responses": {
           "200": {
             "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           }
         }
       }
@@ -27,7 +31,11 @@
         "responses": {
           "200": {
             "description": "Successful Response",
-            "content": { "application/json": { "schema": {} } }
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
           }
         }
       }
@@ -43,7 +51,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Characters" }
+                "schema": {
+                  "$ref": "#/components/schemas/Characters"
+                }
               }
             }
           }
@@ -61,7 +71,10 @@
             "name": "character_id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Character Id" }
+            "schema": {
+              "type": "string",
+              "title": "Character Id"
+            }
           }
         ],
         "responses": {
@@ -69,7 +82,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Character" }
+                "schema": {
+                  "$ref": "#/components/schemas/Character"
+                }
               }
             }
           },
@@ -77,7 +92,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -95,7 +112,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Monsters" }
+                "schema": {
+                  "$ref": "#/components/schemas/Monsters"
+                }
               }
             }
           }
@@ -113,7 +132,10 @@
             "name": "monster_id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Monster Id" }
+            "schema": {
+              "type": "string",
+              "title": "Monster Id"
+            }
           }
         ],
         "responses": {
@@ -121,7 +143,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Monster" }
+                "schema": {
+                  "$ref": "#/components/schemas/Monster"
+                }
               }
             }
           },
@@ -129,7 +153,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -147,7 +173,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Scenarios" }
+                "schema": {
+                  "$ref": "#/components/schemas/Scenarios"
+                }
               }
             }
           }
@@ -165,7 +193,10 @@
             "name": "scenario_id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "title": "Scenario Id" }
+            "schema": {
+              "type": "string",
+              "title": "Scenario Id"
+            }
           }
         ],
         "responses": {
@@ -173,7 +204,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Scenario" }
+                "schema": {
+                  "$ref": "#/components/schemas/Scenario"
+                }
               }
             }
           },
@@ -181,7 +214,9 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             }
           }
@@ -193,8 +228,12 @@
     "schemas": {
       "Ability": {
         "properties": {
-          "a": { "$ref": "#/components/schemas/AbilityAction" },
-          "b": { "$ref": "#/components/schemas/AbilityAction" }
+          "a": {
+            "$ref": "#/components/schemas/AbilityAction"
+          },
+          "b": {
+            "$ref": "#/components/schemas/AbilityAction"
+          }
         },
         "type": "object",
         "required": ["a", "b"],
@@ -202,8 +241,14 @@
       },
       "AbilityAction": {
         "properties": {
-          "name": { "type": "string", "title": "Name" },
-          "initiative": { "type": "integer", "title": "Initiative" }
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "initiative": {
+            "type": "integer",
+            "title": "Initiative"
+          }
         },
         "type": "object",
         "required": ["name", "initiative"],
@@ -221,10 +266,18 @@
       },
       "Character": {
         "properties": {
-          "id": { "type": "string", "title": "Id" },
-          "name": { "type": "string", "title": "Name" },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
           "health_lvls": {
-            "additionalProperties": { "type": "integer" },
+            "additionalProperties": {
+              "type": "integer"
+            },
             "propertyNames": {
               "$ref": "#/components/schemas/CharacterHealthLevel"
             },
@@ -236,10 +289,14 @@
               "additionalProperties": {
                 "$ref": "#/components/schemas/Ability"
               },
-              "propertyNames": { "$ref": "#/components/schemas/CardLevel" },
+              "propertyNames": {
+                "$ref": "#/components/schemas/CardLevel"
+              },
               "type": "object"
             },
-            "propertyNames": { "$ref": "#/components/schemas/CardID" },
+            "propertyNames": {
+              "$ref": "#/components/schemas/CardID"
+            },
             "type": "object",
             "title": "Abilities"
           }
@@ -254,7 +311,9 @@
         "title": "CharacterHealthLevel"
       },
       "Characters": {
-        "items": { "$ref": "#/components/schemas/Character" },
+        "items": {
+          "$ref": "#/components/schemas/Character"
+        },
         "type": "array",
         "title": "Characters"
       },
@@ -280,7 +339,9 @@
       "HTTPValidationError": {
         "properties": {
           "detail": {
-            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
             "type": "array",
             "title": "Detail"
           }
@@ -290,10 +351,22 @@
       },
       "Monster": {
         "properties": {
-          "id": { "type": "string", "title": "Id" },
-          "name": { "type": "string", "title": "Name" },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "health": {
+            "type": "integer",
+            "title": "Health"
+          },
           "initiatives": {
-            "additionalProperties": { "type": "integer" },
+            "additionalProperties": {
+              "type": "integer"
+            },
             "propertyNames": {
               "$ref": "#/components/schemas/MonsterInitiativeSymbol"
             },
@@ -301,24 +374,32 @@
             "title": "Initiatives"
           },
           "persistent_bonuses": {
-            "additionalProperties": { "type": "integer" },
+            "additionalProperties": {
+              "type": "integer"
+            },
             "type": "object",
             "title": "Persistent Bonuses"
           },
           "attack_effects": {
-            "additionalProperties": { "type": "integer" },
-            "propertyNames": { "$ref": "#/components/schemas/Conditions" },
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/Conditions"
+            },
             "type": "object",
             "title": "Attack Effects"
           },
           "immunities": {
-            "items": { "$ref": "#/components/schemas/Conditions" },
+            "items": {
+              "$ref": "#/components/schemas/Conditions"
+            },
             "type": "array",
             "title": "Immunities"
           }
         },
         "type": "object",
-        "required": ["id", "name", "initiatives"],
+        "required": ["id", "name", "health", "initiatives"],
         "title": "Monster"
       },
       "MonsterInitiativeSymbol": {
@@ -327,7 +408,9 @@
         "title": "MonsterInitiativeSymbol"
       },
       "Monsters": {
-        "items": { "$ref": "#/components/schemas/Monster" },
+        "items": {
+          "$ref": "#/components/schemas/Monster"
+        },
         "type": "array",
         "title": "Monsters"
       },
@@ -338,21 +421,36 @@
       },
       "Scenario": {
         "properties": {
-          "id": { "type": "string", "title": "Id" },
-          "name": { "type": "string", "title": "Name" },
-          "level": { "type": "integer", "title": "Level" },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "level": {
+            "type": "integer",
+            "title": "Level"
+          },
           "monsters_id": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "type": "array",
             "title": "Monsters Id"
           },
           "special_rules": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "type": "array",
             "title": "Special Rules"
           },
           "goals": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "type": "array",
             "title": "Goals"
           }
@@ -369,19 +467,36 @@
         "title": "Scenario"
       },
       "Scenarios": {
-        "items": { "$ref": "#/components/schemas/Scenario" },
+        "items": {
+          "$ref": "#/components/schemas/Scenario"
+        },
         "type": "array",
         "title": "Scenarios"
       },
       "ValidationError": {
         "properties": {
           "loc": {
-            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
             "type": "array",
             "title": "Location"
           },
-          "msg": { "type": "string", "title": "Message" },
-          "type": { "type": "string", "title": "Error Type" }
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
         },
         "type": "object",
         "required": ["loc", "msg", "type"],

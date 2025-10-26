@@ -6,6 +6,7 @@
   /* Colors from THEME.COLORS in config.ts */
   --color-gloom-brown: rgb(211, 88, 0);
   --color-gloom-brown-light: rgb(255, 96, 22);
+  --color-gloom-brown-dark: rgb(139, 69, 19);
   --color-gloom-white: rgb(255, 255, 255);
 
   /* Additional theme colors */

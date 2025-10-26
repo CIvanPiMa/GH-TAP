@@ -11,21 +11,10 @@ export const API_CONFIG = {
   BASE_URL: import.meta.env.VITE_GH_TAP_API_URL_BASE || "http://localhost:8000",
 } as const;
 
-// Application Configuration
-export const APP_CONFIG = {
-  NAME: "GH-TAP",
-  DESCRIPTION: "Gloomhaven Turn Action Planner",
-} as const;
-
 // Utility function to get full API URL
 export const getApiUrl = (endpoint?: string): string => {
   const baseUrl = `${API_CONFIG.BASE_URL}/api/${API_CONFIG.VERSION}`;
   return endpoint ? `${baseUrl}/${endpoint}` : baseUrl;
-};
-
-// Utility function to get asset URL
-export const getAssetUrl = (path: string): string => {
-  return path.startsWith("/") ? path : `${ASSET_PATHS.GH_ASSETS}/${path}`;
 };
 
 // Asset Paths

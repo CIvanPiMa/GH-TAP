@@ -1,2 +1,4 @@
 export { useCharacters } from "./useCharacters";
-export { useScenarios } from "./useScenarios";
+export { useCharacter } from "./useCharacter";
+export { useScenarios, useScenario } from "./useScenarios";
+export { useMonsters, useMonster, useMonstersByIds } from "./useMonsters";

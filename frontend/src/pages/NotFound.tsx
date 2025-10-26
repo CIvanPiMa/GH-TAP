@@ -12,6 +12,9 @@ function NotFound() {
           <p className="mb-8 max-w-md">
             Sorry, the page you are looking for doesn't exist or has been moved.
           </p>
+          <Link to="/" className="btn-primary">
+            Go Home
+          </Link>
         </div>
       </div>
     </div>

@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCharacters, useScenarios } from "../hooks";
+import { useCharacters, useScenarios, useCharacter } from "../hooks";
+import { AbilityCard } from "../components";
 import {
   setToLocalStorage,
   getFromLocalStorage,
   STORAGE_KEYS,
 } from "../utils/localStorage";
-import type { Scenario } from "../client/types.gen";
+import type { Scenario, CardId, CardLevel } from "../client/types.gen";
 import type { GameData } from "../types";
 
 interface ScenarioForm {
@@ -36,6 +37,16 @@ const NewScenario: React.FC = () => {
 
   const [scenarioSearch, setScenarioSearch] = useState("");
   const [showScenarioDropdown, setShowScenarioDropdown] = useState(false);
+  const [abilityLevels, setAbilityLevels] = useState<
+    Partial<Record<CardId, CardLevel>>
+  >({});
+
+  // Use character hook to fetch detailed character data
+  const {
+    character,
+    loading: characterLoading,
+    error: characterError,
+  } = useCharacter(formData.character || null);
 
   // Update default character when characters are loaded
   useEffect(() => {
@@ -43,6 +54,11 @@ const NewScenario: React.FC = () => {
       setFormData((prev) => ({ ...prev, character: characters[0].id }));
     }
   }, [characters, formData.character]);
+
+  // Handle ability level changes
+  const handleAbilityLevelChange = (cardId: CardId, level: CardLevel) => {
+    setAbilityLevels((prev) => ({ ...prev, [cardId]: level }));
+  };
 
   // Filter scenarios based on search
   const filteredScenarios = scenarios.filter(
@@ -91,6 +107,7 @@ const NewScenario: React.FC = () => {
         id: formData.character,
         name: selectedCharacter?.name || formData.character,
       },
+      abilityLevels,
       createdAt: new Date().toISOString(),
       gameId: `game-${Date.now()}`, // Simple ID generation
     };
@@ -285,6 +302,68 @@ const NewScenario: React.FC = () => {
               </div>
             )}
           </div>
+
+          {/* Character Details Section */}
+          {formData.character && formData.scenario && (
+            <div className="mt-8">
+              <div className="grid grid-cols-1 gap-6">
+                {/* Character Stats */}
+                <div className="lg:col-span-3">
+                  {characterLoading && (
+                    <div className="card">
+                      <div className="text-center">
+                        <div className="text-white">
+                          Loading character data...
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {characterError && (
+                    <div className="card">
+                      <div className="text-center">
+                        <div className="text-red-400">
+                          Error loading character: {characterError}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Character Abilities */}
+                <div className="lg:col-span-3">
+                  {characterLoading && (
+                    <div className="card">
+                      <div className="text-center">
+                        <div className="text-white">Loading abilities...</div>
+                      </div>
+                    </div>
+                  )}
+                  {character && (
+                    <div className="space-y-6">
+                      <h3 className="text-xl font-semibold text-center mb-4">
+                        Select Ability Levels
+                      </h3>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {Object.entries(character.abilities).map(
+                          ([cardId, ability]) => (
+                            <AbilityCard
+                              key={cardId}
+                              cardId={cardId as CardId}
+                              ability={ability}
+                              selectedLevel={
+                                abilityLevels[cardId as CardId] || "1"
+                              }
+                              onLevelChange={handleAbilityLevelChange}
+                            />
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8">
             <button type="submit" className="btn-primary">

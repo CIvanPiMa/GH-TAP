@@ -17,6 +17,7 @@ class MonsterInitiativeSymbol(Enum):
 class Monster(BaseModel):
     id: str
     name: str
+    health: int
     initiatives: Dict[MonsterInitiativeSymbol, int]
     persistent_bonuses: Dict[Bonus, int] = None
     attack_effects: Dict[Conditions, int] = None

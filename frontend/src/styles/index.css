@@ -11,6 +11,7 @@
 
 :root {
   font-family: var(--font-primary);
+  font-size: 1.2rem; /* Increased from default 16px */
 }
 
 /* Custom utility classes for our theme */
@@ -38,8 +39,28 @@
   background-color: var(--color-gloom-brown-light);
 }
 
+.bg-gloom-brown-dark {
+  background-color: var(--color-gloom-brown-dark);
+}
+
 .border-gloom-brown {
   border-color: var(--color-gloom-brown);
+}
+
+.border-gloom-brown-light {
+  border-color: var(--color-gloom-brown-light);
+}
+
+.border-gloom-brown-dark {
+  border-color: var(--color-gloom-brown-dark);
+}
+
+.bg-gloom-brown-alpha-10 {
+  background-color: var(--color-gloom-brown-alpha-10);
+}
+
+.bg-gloom-brown-alpha-20 {
+  background-color: var(--color-gloom-brown-alpha-20);
 }
 
 .hover\:bg-gloom-brown-light:hover {
@@ -50,12 +71,19 @@
   color: var(--color-gloom-brown-light);
 }
 
+/* Additional background classes */
+.bg-gloom-dark {
+  background-color: var(--color-black-alpha-80);
+}
+
 /* Base styles */
 body {
   background-color: var(--color-black-alpha-80);
   color: var(--color-white-alpha-90);
   min-height: 100vh;
   position: relative;
+  font-size: 1rem; /* This will now be based on the 18px root */
+  line-height: 1.6; /* Improved line height for better readability */
 }
 
 body::before {
@@ -95,9 +123,10 @@ a:hover {
 .btn-primary {
   background-color: var(--color-gloom-brown);
   color: var(--color-gloom-white);
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 1.75rem; /* Increased padding */
   border-radius: 0.5rem;
   font-weight: 600;
+  font-size: 1.1rem; /* Slightly larger font */
   transition: all 0.3s ease;
   display: inline-block;
   text-decoration: none;
@@ -118,15 +147,14 @@ a:hover {
 }
 
 .btn-secondary {
-  background-color: var(--color-secondary-bg);
+  background-color: transparent;
   color: var(--color-gloom-brown);
   border: 2px solid var(--color-gloom-brown);
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 1.75rem; /* Increased padding */
   border-radius: 0.5rem;
   font-weight: 600;
+  font-size: 1.1rem; /* Match primary button font size */
   transition: all 0.3s ease;
-  display: inline-block;
-  text-decoration: none;
   cursor: pointer;
 }
 
